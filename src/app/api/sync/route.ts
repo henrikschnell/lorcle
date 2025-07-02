@@ -101,7 +101,7 @@ export async function GET(req: Request) {
             };
         });
 
-// Speichern
+        // Insert in die Datenbank, Dubletten werden ignoriert
         const { error: setError } = await supabase
             .from('sets')
             .upsert(dbSets, { onConflict: 'number', ignoreDuplicates: true });
