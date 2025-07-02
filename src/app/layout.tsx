@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {dynapuff} from "@/app/lib/fonts";
+import {dynapuff} from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Lorcle",
