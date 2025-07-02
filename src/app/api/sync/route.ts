@@ -115,10 +115,14 @@ export async function GET(req: Request) {
         return NextResponse.json({
             success: true,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unbekannter Fehler';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
         console.error('Sync-Fehler:', error);
         return NextResponse.json(
-            { error: error.message || 'Unbekannter Fehler' },
+            { error: errorMessage },
             { status: 500 }
         );
     }
