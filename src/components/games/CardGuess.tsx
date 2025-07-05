@@ -24,21 +24,39 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Compare the input card name to today's card fullname
         const userGuess = inputValue.trim();
-        const todaysCardName = todaysCard.fullname;
 
-        console.log('User guess:', userGuess);
-        console.log('Today\'s card fullname:', todaysCardName);
-        console.log('Match:', userGuess.toLowerCase() === todaysCardName.toLowerCase());
+        // If there are suggestions available, take the first one
+        if (suggestions.length > 0) {
+            const firstSuggestion = suggestions[0];
+            if (onGuess) {
+                onGuess(firstSuggestion);
+            }
+        } else {
+            // Find the guessed card by matching fullname
+            // If multiple cards have the same fullname, we need to consider rarity as well
+            const matchingCards = cards.filter(card => 
+                card.fullname.toLowerCase() === userGuess.toLowerCase()
+            );
 
-        // Find the guessed card and add to history
-        const guessedCard = cards.find(card => 
-            card.fullname.toLowerCase() === userGuess.toLowerCase()
-        );
+            let guessedCard: Card | undefined;
 
-        if (guessedCard && onGuess) {
-            onGuess(guessedCard);
+            if (matchingCards.length === 1) {
+                // Only one match, use it
+                guessedCard = matchingCards[0];
+            } else if (matchingCards.length > 1) {
+                // Multiple matches with same fullname, check if today's card matches one of them
+                // and use that one, otherwise use the first match
+                const todaysCardMatch = matchingCards.find(card => 
+                    card.fullname.toLowerCase() === todaysCard.fullname.toLowerCase() &&
+                    card.rarity === todaysCard.rarity
+                );
+                guessedCard = todaysCardMatch || matchingCards[0];
+            }
+
+            if (guessedCard && onGuess) {
+                onGuess(guessedCard);
+            }
         }
 
         // Clear input and hide suggestions after submission
@@ -75,30 +93,15 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
         }
     };
 
-    const handleSuggestionClick = (cardName: string) => {
-        // Hide suggestions immediately
+    const handleSuggestionClick = (selectedCard: Card) => {
         setShowSuggestions(false);
         setSuggestions([]);
         setActiveSuggestionIndex(-1);
 
-        // Directly check if the suggestion matches today's card
-        const userGuess = cardName.trim();
-        const todaysCardName = todaysCard.fullname;
-
-        console.log('User guess:', userGuess);
-        console.log('Today\'s card fullname:', todaysCardName);
-        console.log('Match:', userGuess.toLowerCase() === todaysCardName.toLowerCase());
-
-        // Find the guessed card and add to history
-        const guessedCard = cards.find(card => 
-            card.fullname.toLowerCase() === userGuess.toLowerCase()
-        );
-
-        if (guessedCard && onGuess) {
-            onGuess(guessedCard);
+        if (onGuess) {
+            onGuess(selectedCard);
         }
 
-        // Keep input field clear - don't set the selected value
         setInputValue('');
     };
 
@@ -121,7 +124,7 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
             case 'Enter':
                 if (activeSuggestionIndex >= 0) {
                     e.preventDefault();
-                    handleSuggestionClick(suggestions[activeSuggestionIndex].fullname);
+                    handleSuggestionClick(suggestions[activeSuggestionIndex]);
                 }
                 break;
             case 'Escape':
@@ -176,11 +179,11 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
                                             ? 'bg-[#d3ba84]/20 text-[#d3ba84]' 
                                             : 'text-gray-300 hover:bg-gray-700'
                                     }`}
-                                    onClick={() => handleSuggestionClick(card.fullname)}
+                                    onClick={() => handleSuggestionClick(card)}
                                 >
-                                    <div className="text-sm font-medium">{card.fullname}</div>
+                                    <div className="text-sm font-medium">{`${card.fullname} (${card.rarity})`}</div>
                                     {card.fullname !== card.name && (
-                                        <div className="text-xs text-gray-400">{card.name}</div>
+                                        <div className="text-sm text-gray-400">{`${card.name} (${card.rarity})`}</div>
                                     )}
                                 </div>
                             ))}
