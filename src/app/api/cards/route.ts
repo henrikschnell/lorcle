@@ -7,6 +7,7 @@ export async function GET() {
     const { data, error } = await supabase
         .from('cards')
         .select('*')
+        .filter('setcode', 'regex', '^\\d+$')
         .order('name', { ascending: true });
 
     if (error) {
