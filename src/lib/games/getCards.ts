@@ -1,26 +1,4 @@
-interface Card {
-    id: number;
-    number: number;
-    setcode: string;
-    type: string;
-    color: string;
-    cost: number;
-    willpower: number | null;
-    fullname: string;
-    name: string;
-    version: string | null;
-    fullnamegerman: string;
-    namegerman: string;
-    versiongerman: string | null;
-    flavortext: string;
-    flavortextgerman: string;
-    inkwell: boolean;
-    lore: string | null;
-    rarity: string;
-    raritygerman: string;
-    subtypes: string | null;
-    subtypesgerman: string | null;
-}
+import { Card } from '@/types/card';
 
 export async function getAllCards(): Promise<Card[]> {
     const CACHE_TTL = 43200;
