@@ -4,6 +4,7 @@ import { supabase } from '@/lib/db';
 type LocaleKey = 'de' | 'en';
 
 type Set = {
+    setcode: string;
     number: number;
     name: string;
     type: 'expansion' | 'quest';
@@ -28,13 +29,18 @@ type Card = {
     lore?: number;
     rarity: string;
     subtypes?: string[];
+    images: {
+        full: string;
+        thumbnail: string;
+        foilmask: string;
+    };
 };
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
-    const key = url.searchParams.get('key');
+    const authKey = url.searchParams.get('key');
 
-    if (key !== process.env.INTERNAL_SYNC_KEY) {
+    if (authKey !== process.env.INTERNAL_SYNC_KEY) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -43,26 +49,22 @@ export async function GET(req: Request) {
         const dataDE: { sets: Set[]; cards: Card[] } = await fetchData('de');
         const dataEN: { sets: Set[]; cards: Card[] } = await fetchData('en');
 
-        const setsDEArray = Object.values(dataDE.sets);
         const cardsDEArray = Object.values(dataDE.cards);
-        const setsENArray = Object.values(dataEN.sets);
         const cardsENArray = Object.values(dataEN.cards);
 
         // Maps aufbauen
         const setsDEMap = new Map<string, Set>();
-        setsDEArray.forEach(set => {
-            const key = `${set.number}-${set.type}`;
+        Object.entries(dataDE.sets).forEach(([key, set]) => {
             setsDEMap.set(key, set);
         });
 
         const cardsDEMap = new Map<number, Card>();
         cardsDEArray.forEach(card => cardsDEMap.set(card.id, card));
 
-        // Sets mergen und an DB-Spaltennamen anpassen (case-sensitive)
-        const dbSets = setsENArray.map(setEN => {
-            const key = `${setEN.number}-${setEN.type}`;
-            const setDE = setsDEMap.get(key);
+        const dbSets = Object.entries(dataEN.sets).map(([setcode, setEN]) => {
+            const setDE = setsDEMap.get(setcode);
             return {
+                setcode, // ← actual key from setsEN object
                 number: setEN.number,
                 name: setEN.name,
                 namegerman: setDE?.name ?? '',
@@ -98,13 +100,16 @@ export async function GET(req: Request) {
                 raritygerman: cardDE?.rarity ?? '',
                 subtypes: cardEN.subtypes ?? null,
                 subtypesgerman: cardDE?.subtypes ?? null,
+                image_full: cardEN.images.full ?? '',
+                image_thumbnail: cardEN.images.thumbnail ?? '',
+                image_foilmask: cardEN.images.foilmask ?? '',
             };
         });
 
         // Insert in die Datenbank, Dubletten werden ignoriert
         const { error: setError } = await supabase
             .from('sets')
-            .upsert(dbSets, { onConflict: 'number', ignoreDuplicates: true });
+            .upsert(dbSets, { onConflict: 'setcode', ignoreDuplicates: true });
         if (setError) throw new Error(`Fehler beim Speichern der Sets: ${setError.message}`);
 
         const { error: cardError } = await supabase
