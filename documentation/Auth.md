@@ -1,14 +1,12 @@
 ### User Authorization
-Muss auf jeder Seite, die geschützt werden soll, eingebaut werden.
+
 
 ```ts
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { requireAuth, getCurrentUser } from "@/lib/auth";
 
-const supabase = await createClient()
+// Prüfung ob eingeloggt
+await requireAuth();
 
-const { data, error } = await supabase.auth.getUser()
-if (error || !data?.user) {
-    redirect('/login')
-}
+// Aktuellen Benutzer holen
+const user = await getCurrentUser();
 ```
