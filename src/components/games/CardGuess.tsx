@@ -26,15 +26,12 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
 
         const userGuess = inputValue.trim();
 
-        // If there are suggestions available, take the first one
         if (suggestions.length > 0) {
             const firstSuggestion = suggestions[0];
             if (onGuess) {
                 onGuess(firstSuggestion);
             }
         } else {
-            // Find the guessed card by matching fullname
-            // If multiple cards have the same fullname, we need to consider rarity as well
             const matchingCards = cards.filter(card => 
                 card.fullname.toLowerCase() === userGuess.toLowerCase()
             );
@@ -42,11 +39,8 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
             let guessedCard: Card | undefined;
 
             if (matchingCards.length === 1) {
-                // Only one match, use it
                 guessedCard = matchingCards[0];
             } else if (matchingCards.length > 1) {
-                // Multiple matches with same fullname, check if today's card matches one of them
-                // and use that one, otherwise use the first match
                 const todaysCardMatch = matchingCards.find(card => 
                     card.fullname.toLowerCase() === todaysCard.fullname.toLowerCase() &&
                     card.rarity === todaysCard.rarity
@@ -75,12 +69,27 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
             const filteredCards = cards
                 .filter(
                     card =>
-                        !(guessHistory ?? []).some(guessed => guessed.id === card.id) && // exclude already guessed
+                        !(guessHistory ?? []).some(guessed => guessed.id === card.id) &&
                         (
                             card.fullname.toLowerCase().includes(value.toLowerCase()) ||
                             card.name.toLowerCase().includes(value.toLowerCase())
                         )
                 )
+                .sort((a, b) => {
+                    const searchTerm = value.toLowerCase();
+                    const aFullnameStarts = a.fullname.toLowerCase().startsWith(searchTerm);
+                    const aNameStarts = a.name.toLowerCase().startsWith(searchTerm);
+                    const bFullnameStarts = b.fullname.toLowerCase().startsWith(searchTerm);
+                    const bNameStarts = b.name.toLowerCase().startsWith(searchTerm);
+
+                    const aStartsWithTerm = aFullnameStarts || aNameStarts;
+                    const bStartsWithTerm = bFullnameStarts || bNameStarts;
+
+                    if (aStartsWithTerm && !bStartsWithTerm) return -1;
+                    if (!aStartsWithTerm && bStartsWithTerm) return 1;
+
+                    return 0;
+                })
                 .slice(0, 30);
 
             setSuggestions(filteredCards);
