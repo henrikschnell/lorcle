@@ -9,20 +9,40 @@ type Props = {
 };
 
 export default function GuessRow({ card, todaysCard, animate = false }: Props) {
-    const getGuessState = (guessValue: any, correctValue: any): 'correct' | 'wrong' | 'partial' => {
-        if (guessValue === correctValue) {
-            return 'correct';
+    const getGuessState = (comparisonKey: string): 'correct' | 'wrong' | 'partial' => {
+        console.log(todaysCard['color']);
+        console.log(card['color']);
+
+        switch (comparisonKey) {
+            // Nur richtig oder falsch möglich
+            case 'fullname':
+            case 'setcode':
+            case 'type':
+            case 'cost':
+            case 'rarity':
+                if (card[comparisonKey] === todaysCard[comparisonKey]) {
+                    return 'correct';
+                }
+                break;
+            // Richtig, falsch und teilweise richtig möglich
+            case 'color':
+                if (card[comparisonKey] === todaysCard[comparisonKey]) {
+                    return 'correct';
+                } else if (card[comparisonKey].includes(todaysCard[comparisonKey]) || todaysCard[comparisonKey].includes(card[comparisonKey])) {
+                    return 'partial';
+                }
+                break;
         }
         return 'wrong';
     };
 
     const items = [
-        { value: card.fullname, state: getGuessState(card.fullname, todaysCard.fullname) },
-        { value: card.setcode, state: getGuessState(card.setcode, todaysCard.setcode) },
-        { value: card.type, state: getGuessState(card.type, todaysCard.type) },
-        { value: card.color, state: getGuessState(card.color, todaysCard.color) },
-        { value: card.cost, state: getGuessState(card.cost, todaysCard.cost) },
-        { value: card.rarity, state: getGuessState(card.rarity, todaysCard.rarity) },
+        { value: card.fullname, state: getGuessState('fullname') },
+        { value: card.setcode, state: getGuessState('setcode') },
+        { value: card.type, state: getGuessState('type') },
+        { value: card.color, state: getGuessState('color') },
+        { value: card.cost, state: getGuessState('cost') },
+        { value: card.rarity, state: getGuessState('rarity') },
     ];
 
     return (

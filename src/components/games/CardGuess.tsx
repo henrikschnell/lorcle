@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SendHorizontal } from 'lucide-react';
@@ -10,9 +10,10 @@ type Props = {
     todaysCard: Card;
     cards: Card[];
     onGuess?: (guessedCard: Card) => void;
+    guessHistory?: Card[];
 };
 
-export default function CardGuess({ todaysCard, cards, onGuess }: Props) {
+export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: Props) {
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState<Card[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -52,11 +53,15 @@ export default function CardGuess({ todaysCard, cards, onGuess }: Props) {
         setInputValue(value);
 
         if (value.trim().length > 0) {
-            // Filter cards based on input, limit to 30 suggestions
+            // Karten auf Basis der Suche filtern (maximal 30 Vorschläge werden angezeigt)
             const filteredCards = cards
-                .filter(card => 
-                    card.fullname.toLowerCase().includes(value.toLowerCase()) ||
-                    card.name.toLowerCase().includes(value.toLowerCase())
+                .filter(
+                    card =>
+                        !(guessHistory ?? []).some(guessed => guessed.id === card.id) && // exclude already guessed
+                        (
+                            card.fullname.toLowerCase().includes(value.toLowerCase()) ||
+                            card.name.toLowerCase().includes(value.toLowerCase())
+                        )
                 )
                 .slice(0, 30);
 

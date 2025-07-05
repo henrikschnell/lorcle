@@ -25,6 +25,7 @@ export default function ClassicGame({ todaysCard, cards }: Props) {
                     todaysCard={todaysCard} 
                     cards={cards} 
                     onGuess={handleGuess}
+                    guessHistory={guessHistory}
                 />
 
                 <GuessHeader />
