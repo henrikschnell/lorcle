@@ -1,3 +1,5 @@
-import { DynaPuff } from 'next/font/google';
+import { Barlow } from 'next/font/google';
 
-export const dynapuff = DynaPuff({ subsets: ['latin'] });
+export const barlow = Barlow({
+    weight: '400',
+});
