@@ -30,6 +30,8 @@ export default function GuessItem({ value, state, type }: Props) {
             case 'Steel':
                 value = '/images/inks/steel.png';
                 break;
+            default:
+                type = 'text';
         }
     }
 
