@@ -11,8 +11,6 @@ type Props = {
 };
 
 export default function GuessRow({ card, todaysCard, animate = false }: Props) {
-    console.log(todaysCard)
-
     const getGuessState = (comparisonKey: string): 'correct' | 'wrong' | 'partial' => {
         switch (comparisonKey) {
             // Nur richtig oder falsch möglich
