@@ -27,8 +27,8 @@ export default function ClassicGame({ todaysCard, cards }: Props) {
                     onGuess={handleGuess}
                 />
 
-                <div id="history">
-                    <GuessHeader />
+                <GuessHeader />
+                <div id="history" className="h-120 overflow-y-scroll snap-y mt-6">
                     {guessHistory.map((card, index) => (
                         <GuessRow
                             key={`${card.id}-${index}`}

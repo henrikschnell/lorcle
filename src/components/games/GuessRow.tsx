@@ -26,7 +26,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     ];
 
     return (
-        <div className="flex justify-around mt-4">
+        <div className="flex justify-around mt-4 snap-center">
             {items.map((item, index) =>
                 animate ? (
                     <motion.div
