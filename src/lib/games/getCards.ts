@@ -1,10 +1,10 @@
 import { Card } from '@/types/card';
 
 export async function getAllCards(): Promise<Card[]> {
-    const CACHE_TTL = 43200;
+    const CACHE_TTL = 86400;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/cards`, {
-        next: { revalidate: 0 },
+        next: { revalidate: CACHE_TTL },
     });
 
     if (!res.ok) {
