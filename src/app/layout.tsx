@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
-import { dynapuff } from "@/lib/fonts";
-import { ThemeProvider } from "next-themes";
+
 import React from "react";
+import { barlow } from "@/lib/fonts";
+import { ThemeProvider } from "next-themes";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const title = "Lorcle: Guess the Lorcana Card - Daily Puzzle Game!";
 
@@ -23,15 +26,20 @@ export default function RootLayout({
               <meta name="google-site-verification" content="eO-qdUpzfUBpAICgku7EmDiGiV8ktHuaXtIgioMpn5w" />
               <title>{title}</title>
           </head>
-          <body className={dynapuff.className}>
-              <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-                  disableTransitionOnChange
-              >
-                  {children}
-              </ThemeProvider>
+          <body className={barlow.className}>
+              <main className="p-4">
+                  <ThemeProvider
+                      attribute="class"
+                      defaultTheme="system"
+                      enableSystem
+                      disableTransitionOnChange
+                  >
+                      <div className="flex justify-end">
+                          <ModeToggle />
+                      </div>
+                      {children}
+                  </ThemeProvider>
+              </main>
           </body>
           </html>
       </>
