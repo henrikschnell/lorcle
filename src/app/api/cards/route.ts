@@ -6,8 +6,7 @@ const CACHE_TTL = 43200;
 export async function GET() {
     const { data, error } = await supabase
         .from('cards')
-        .select('*')
-        .filter('setcode', 'regex', '^\\d+$')
+        .select('*, sets(name, namegerman)')
         .order('name', { ascending: true });
 
     if (error) {

@@ -20,4 +20,7 @@ export interface Card {
     raritygerman: string;
     subtypes: string | null;
     subtypesgerman: string | null;
+    image_full: string | null;
+    image_thumbnail: string | null;
+    image_foilmask: string | null;
 }
