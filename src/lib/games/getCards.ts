@@ -1,25 +1,25 @@
-type Card = {
-    id: number,
-    number: number,
-    setcode: string,
-    type: string,
-    color: string,
-    cost: number,
-    willpower: number,
-    fullname: string,
-    name: string,
-    version: string,
-    fullnamegerman: string,
-    namegerman: string,
-    versiongerman: string,
-    flavortext: string,
-    flavortextgerman: string,
-    inkwell: boolean,
-    lore: number,
-    rarity: string,
-    raritygerman: string,
-    subtypes: string[],
-    subtypesgerman: string,
+interface Card {
+    id: number;
+    number: number;
+    setcode: string;
+    type: string;
+    color: string;
+    cost: number;
+    willpower: number | null;
+    fullname: string;
+    name: string;
+    version: string | null;
+    fullnamegerman: string;
+    namegerman: string;
+    versiongerman: string | null;
+    flavortext: string;
+    flavortextgerman: string;
+    inkwell: boolean;
+    lore: string | null;
+    rarity: string;
+    raritygerman: string;
+    subtypes: string | null;
+    subtypesgerman: string | null;
 }
 
 export async function getAllCards(): Promise<Card[]> {
@@ -33,5 +33,5 @@ export async function getAllCards(): Promise<Card[]> {
         throw new Error('Failed to fetch cards');
     }
 
-    return res.json();
+    return await res.json();
 }
