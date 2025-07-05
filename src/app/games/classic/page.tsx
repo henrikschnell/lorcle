@@ -1,10 +1,8 @@
-import { requireAuth } from "@/lib/auth";
 import { getAllCards } from "@/lib/games/getCards";
 import { getTodaysCard } from "@/utils/getTodaysCard";
 import ClassicGame from "@/components/games/ClassicGame";
 
 export default async function Classic() {
-    await requireAuth();
     const todaysCard = await getTodaysCard();
     const allCards = await getAllCards();
 

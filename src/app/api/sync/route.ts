@@ -32,7 +32,7 @@ type Card = {
     images: {
         full: string;
         thumbnail: string;
-        foilmask: string;
+        foilMask: string;
     };
 };
 
@@ -102,7 +102,7 @@ export async function GET(req: Request) {
                 subtypesgerman: cardDE?.subtypes ?? null,
                 image_full: cardEN.images.full ?? '',
                 image_thumbnail: cardEN.images.thumbnail ?? '',
-                image_foilmask: cardEN.images.foilmask ?? '',
+                image_foilmask: cardEN.images.foilMask ?? '',
             };
         });
 
