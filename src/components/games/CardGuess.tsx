@@ -1,0 +1,205 @@
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { SendHorizontal } from 'lucide-react';
+import { Card } from '@/types/card';
+
+type Props = {
+    todaysCard: Card;
+    cards: Card[];
+    onGuess?: (guessedCard: Card) => void;
+    guessHistory?: Card[];
+};
+
+export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: Props) {
+    const [inputValue, setInputValue] = useState('');
+    const [suggestions, setSuggestions] = useState<Card[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const suggestionsRef = useRef<HTMLDivElement>(null);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const userGuess = inputValue.trim();
+
+        // If there are suggestions available, take the first one
+        if (suggestions.length > 0) {
+            const firstSuggestion = suggestions[0];
+            if (onGuess) {
+                onGuess(firstSuggestion);
+            }
+        } else {
+            // Find the guessed card by matching fullname
+            // If multiple cards have the same fullname, we need to consider rarity as well
+            const matchingCards = cards.filter(card => 
+                card.fullname.toLowerCase() === userGuess.toLowerCase()
+            );
+
+            let guessedCard: Card | undefined;
+
+            if (matchingCards.length === 1) {
+                // Only one match, use it
+                guessedCard = matchingCards[0];
+            } else if (matchingCards.length > 1) {
+                // Multiple matches with same fullname, check if today's card matches one of them
+                // and use that one, otherwise use the first match
+                const todaysCardMatch = matchingCards.find(card => 
+                    card.fullname.toLowerCase() === todaysCard.fullname.toLowerCase() &&
+                    card.rarity === todaysCard.rarity
+                );
+                guessedCard = todaysCardMatch || matchingCards[0];
+            }
+
+            if (guessedCard && onGuess) {
+                onGuess(guessedCard);
+            }
+        }
+
+        // Clear input and hide suggestions after submission
+        setInputValue('');
+        setShowSuggestions(false);
+        setSuggestions([]);
+        setActiveSuggestionIndex(-1);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+
+        if (value.trim().length > 0) {
+            // Karten auf Basis der Suche filtern (maximal 30 Vorschläge werden angezeigt)
+            const filteredCards = cards
+                .filter(
+                    card =>
+                        !(guessHistory ?? []).some(guessed => guessed.id === card.id) && // exclude already guessed
+                        (
+                            card.fullname.toLowerCase().includes(value.toLowerCase()) ||
+                            card.name.toLowerCase().includes(value.toLowerCase())
+                        )
+                )
+                .slice(0, 30);
+
+            setSuggestions(filteredCards);
+            setShowSuggestions(true);
+            setActiveSuggestionIndex(-1);
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+            setActiveSuggestionIndex(-1);
+        }
+    };
+
+    const handleSuggestionClick = (selectedCard: Card) => {
+        setShowSuggestions(false);
+        setSuggestions([]);
+        setActiveSuggestionIndex(-1);
+
+        if (onGuess) {
+            onGuess(selectedCard);
+        }
+
+        setInputValue('');
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!showSuggestions || suggestions.length === 0) return;
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                setActiveSuggestionIndex(prev => 
+                    prev < suggestions.length - 1 ? prev + 1 : 0
+                );
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                setActiveSuggestionIndex(prev => 
+                    prev > 0 ? prev - 1 : suggestions.length - 1
+                );
+                break;
+            case 'Enter':
+                if (activeSuggestionIndex >= 0) {
+                    e.preventDefault();
+                    handleSuggestionClick(suggestions[activeSuggestionIndex]);
+                }
+                break;
+            case 'Escape':
+                setShowSuggestions(false);
+                setActiveSuggestionIndex(-1);
+                break;
+        }
+    };
+
+    // Close suggestions when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                inputRef.current && 
+                !inputRef.current.contains(event.target as Node) &&
+                suggestionsRef.current &&
+                !suggestionsRef.current.contains(event.target as Node)
+            ) {
+                setShowSuggestions(false);
+                setActiveSuggestionIndex(-1);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    return (
+        <div className="relative w-full">
+            <form onSubmit={handleSubmit} className="flex w-full items-center gap-2">
+                <div className="relative flex-1">
+                    <Input 
+                        ref={inputRef}
+                        type="text" 
+                        placeholder="Enter a card name" 
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                        autoComplete="off"
+                    />
+
+                    {showSuggestions && suggestions.length > 0 && (
+                        <div 
+                            ref={suggestionsRef}
+                            className="absolute top-full left-0 right-0 z-50 mt-1 max-h-60 overflow-y-auto bg-gray-800 border border-gray-600 rounded-lg shadow-lg"
+                        >
+                            {suggestions.map((card, index) => (
+                                <div
+                                    key={card.id}
+                                    className={`px-4 py-2 cursor-pointer transition-colors ${
+                                        index === activeSuggestionIndex 
+                                            ? 'bg-[#d3ba84]/20 text-[#d3ba84]' 
+                                            : 'text-gray-300 hover:bg-gray-700'
+                                    }`}
+                                    onClick={() => handleSuggestionClick(card)}
+                                >
+                                    <div className="text-sm font-medium">{`${card.fullname} (${card.rarity})`}</div>
+                                    {card.fullname !== card.name && (
+                                        <div className="text-sm text-gray-400">{`${card.name} (${card.rarity})`}</div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <Button 
+                    type="submit" 
+                    variant="outline" 
+                    size="icon" 
+                    className="size-8"
+                >
+                    <SendHorizontal />
+                </Button>
+            </form>
+        </div>
+    );
+}

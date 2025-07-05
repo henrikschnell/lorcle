@@ -15,7 +15,7 @@ export default function CardSelector({ cards, onChange }: Props) {
     };
 
     return (
-        <div className="relative inline-block w-full max-w-md">
+        <div className="relative inline-block w-full">
             <select 
                 onChange={handleChange}
                 className="
@@ -43,7 +43,7 @@ export default function CardSelector({ cards, onChange }: Props) {
                 }}
             >
                 <option value="" className="bg-gray-800 text-[#d3ba84]">
-                    Karte auswählen
+                    Choose a card
                 </option>
                 {cards.map(card => (
                     <option 
