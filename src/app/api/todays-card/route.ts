@@ -17,6 +17,7 @@ const getCachedTodaysCard = unstable_cache(
 
 export async function GET() {
     try {
+        console.log('--- Function getCachedTodaysCard called ---')
         const todaysCard = await getCachedTodaysCard();
 
         return NextResponse.json(todaysCard, {

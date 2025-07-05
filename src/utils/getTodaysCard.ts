@@ -3,6 +3,7 @@ import { Card } from '@/types/card';
 import seedrandom from 'seedrandom';
 
 export async function getTodaysCard(date = new Date()): Promise<Card> {
+    console.log('--- Function getTodaysCard called ---');
     const dateToday = date.toISOString().split('T')[0];
 
     const { data: historyEntry, error: historyError } = await supabase
@@ -18,12 +19,12 @@ export async function getTodaysCard(date = new Date()): Promise<Card> {
         .single();
 
     if (!historyError && historyEntry?.cards) {
-        console.warn(historyEntry.cards[0]);
+        console.log(historyEntry);
         return historyEntry.cards[0] as Card;
     }
 
     // Fallback
-    console.warn(`No card found in history for ${dateToday}, falling back to generation`);
+    console.log(`No card found in history for ${dateToday}, falling back to generation`);
 
     const { data: cards, error: cardsError } = await supabase
         .from('cards')
