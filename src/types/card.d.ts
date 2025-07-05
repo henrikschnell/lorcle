@@ -1,3 +1,8 @@
+export interface Set {
+    name: string;
+    namegerman: string;
+}
+
 export interface Card {
     id: number;
     number: number;
@@ -23,4 +28,5 @@ export interface Card {
     image_full: string | null;
     image_thumbnail: string | null;
     image_foilmask: string | null;
+    sets: Set;
 }

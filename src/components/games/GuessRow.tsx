@@ -1,6 +1,8 @@
 import { Card } from '@/types/card';
 import GuessItem from './GuessItem';
 import { motion } from 'framer-motion';
+import React from "react";
+import Image from "next/image";
 
 type Props = {
     card: Card;
@@ -10,17 +12,18 @@ type Props = {
 
 export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     const getGuessState = (comparisonKey: string): 'correct' | 'wrong' | 'partial' => {
-        console.log(todaysCard['color']);
-        console.log(card['color']);
-
         switch (comparisonKey) {
             // Nur richtig oder falsch möglich
             case 'fullname':
-            case 'setcode':
             case 'type':
             case 'cost':
             case 'rarity':
                 if (card[comparisonKey] === todaysCard[comparisonKey]) {
+                    return 'correct';
+                }
+                break;
+            case 'set':
+                if (card.sets && todaysCard.sets && card.sets.name === todaysCard.sets.name) {
                     return 'correct';
                 }
                 break;
@@ -37,16 +40,31 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     };
 
     const items = [
-        { value: card.fullname, state: getGuessState('fullname') },
-        { value: card.setcode, state: getGuessState('setcode') },
-        { value: card.type, state: getGuessState('type') },
-        { value: card.color, state: getGuessState('color') },
-        { value: card.cost, state: getGuessState('cost') },
-        { value: card.rarity, state: getGuessState('rarity') },
+        { value: card.sets.name, state: getGuessState('set'), type: 'text' },
+        { value: card.type, state: getGuessState('type'), type: 'text' },
+        { value: card.color, state: getGuessState('color'), type: 'img' },
+        { value: card.cost, state: getGuessState('cost'), type: 'text' },
+        { value: card.rarity, state: getGuessState('rarity'), type: 'text' },
     ];
 
     return (
         <div className="flex justify-around mt-4 snap-center">
+            <div className="rounded-md w-20 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
+                {card.image_thumbnail ? (
+                    <Image 
+                        src={card.image_thumbnail} 
+                        alt="Card Image" 
+                        width={160}
+                        height={160}
+                        className="w-full h-full rounded-md object-cover transform scale-147"
+                        style={{ objectPosition: 'center -28%' }}
+                    />
+                ) : (
+                    <div className="w-full h-full bg-gray-200 rounded-md flex items-center justify-center">
+                        <span className="text-gray-500 text-xs">{card.fullname}</span>
+                    </div>
+                )}
+            </div>
             {items.map((item, index) =>
                 animate ? (
                     <motion.div
@@ -55,11 +73,11 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.5, duration: 0.4 }}
                     >
-                        <GuessItem value={item.value} state={item.state} />
+                        <GuessItem value={item.value} state={item.state} type={item.type} />
                     </motion.div>
                 ) : (
                     <div key={index}>
-                        <GuessItem value={item.value} state={item.state} />
+                        <GuessItem value={item.value} state={item.state} type={item.type} />
                     </div>
                 )
             )}
