@@ -32,6 +32,7 @@ export default function GuessItem({ value, state, type }: Props) {
                 break;
             default:
                 type = 'text';
+                value = value === '' ? 'None' : value;
         }
     }
 
@@ -49,9 +50,9 @@ export default function GuessItem({ value, state, type }: Props) {
     };
 
     return (
-        <div className={`rounded-md w-20 aspect-square flex justify-center items-center border-2 border-primary ${getStateClasses()}`}>
+        <div className={`rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary ${getStateClasses()}`}>
             {type === 'text' ? (
-                <span className="text-wrap text-center px-1 text-sm text-white">{value}</span>
+                <span className="text-wrap text-center text-md text-white">{value}</span>
             ) : type === 'img' ? (
                 <Image
                     src={`${value}`}

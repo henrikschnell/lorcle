@@ -33,7 +33,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
             case 'color':
                 if (card[comparisonKey] === todaysCard[comparisonKey]) {
                     return 'correct';
-                } else if (card[comparisonKey].includes(todaysCard[comparisonKey]) || todaysCard[comparisonKey].includes(card[comparisonKey])) {
+                } else if (card[comparisonKey] !== '' && (card[comparisonKey].includes(todaysCard[comparisonKey]) || todaysCard[comparisonKey].includes(card[comparisonKey]))) {
                     return 'partial';
                 }
                 break;
@@ -50,7 +50,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     ];
 
     return (
-        <div className="flex justify-around mt-4 snap-center">
+        <div className="flex justify-around mt-4 px-2 snap-end">
             {
                 animate ? (
                     <motion.div
@@ -59,7 +59,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0, duration: 0.4 }}
                     >
-                        <div className="rounded-md w-20 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
+                        <div className="rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
                             {card.image_thumbnail ? (
                                 <Image
                                     src={card.image_thumbnail}
@@ -77,7 +77,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
                         </div>
                     </motion.div>
                 ) : (
-                    <div className="rounded-md w-20 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
+                    <div className="rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
                         {card.image_thumbnail ? (
                             <Image
                                 src={card.image_thumbnail}
