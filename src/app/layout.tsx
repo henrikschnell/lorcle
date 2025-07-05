@@ -4,8 +4,6 @@ import "./globals.css";
 
 import React from "react";
 import { barlow } from "@/lib/fonts";
-import { ThemeProvider } from "next-themes";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const title = "Lorcle: Guess the Lorcana Card - Daily Puzzle Game!";
 
@@ -28,17 +26,20 @@ export default function RootLayout({
           </head>
           <body className={barlow.className}>
               <main className="p-4">
-                  <ThemeProvider
-                      attribute="class"
-                      defaultTheme="system"
-                      enableSystem
-                      disableTransitionOnChange
-                  >
-                      <div className="flex justify-end">
-                          <ModeToggle />
-                      </div>
-                      {children}
-                  </ThemeProvider>
+                  {/*
+                      <ThemeProvider
+                          attribute="class"
+                          defaultTheme="system"
+                          enableSystem
+                          disableTransitionOnChange
+                      >
+                          <div className="flex justify-end">
+                              <ModeToggle />
+                          </div>
+                          {children}
+                      </ThemeProvider>
+                  */}
+                  {children}
               </main>
           </body>
           </html>

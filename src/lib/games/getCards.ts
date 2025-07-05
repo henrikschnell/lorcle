@@ -4,7 +4,7 @@ export async function getAllCards(): Promise<Card[]> {
     const CACHE_TTL = 43200;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/cards`, {
-        next: { revalidate: CACHE_TTL },
+        next: { revalidate: 0 },
     });
 
     if (!res.ok) {
