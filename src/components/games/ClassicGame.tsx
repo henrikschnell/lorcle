@@ -28,17 +28,23 @@ export default function ClassicGame({ todaysCard, cards }: Props) {
                     guessHistory={guessHistory}
                 />
 
-                <GuessHeader />
-                <div id="history" className="h-108 overflow-y-scroll snap-y mt-6">
-                    {guessHistory.map((card, index) => (
-                        <GuessRow
-                            key={`${card.id}-${index}`}
-                            card={card}
-                            todaysCard={todaysCard}
-                            animate={index === 0} // Only animate the newest row
-                        />
-                    ))}
-                </div>
+                {
+                    guessHistory.length > 0 && (
+                        <>
+                            <GuessHeader />
+                            <div id="history" className="h-108 overflow-y-scroll snap-y mt-6">
+                                {guessHistory.map((card, index) => (
+                                    <GuessRow
+                                        key={`${card.id}-${index}`}
+                                        card={card}
+                                        todaysCard={todaysCard}
+                                        animate={index === 0} // Only animate the newest row
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )
+                }
             </div>
         </div>
     );
