@@ -1,6 +1,6 @@
 export default function GuessHeader() {
     return (
-        <div id="guess-header" className="flex justify-around mt-8">
+        <div id="guess-header" className="flex justify-around mt-8 px-2">
             <div className="flex-1 text-center">
                 <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Card</p>
             </div>
