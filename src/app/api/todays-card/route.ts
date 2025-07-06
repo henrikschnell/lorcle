@@ -6,6 +6,7 @@ const CACHE_TTL = 86400;
 
 const getCachedTodaysCard = unstable_cache(
     async () => {
+        console.log(`--- api/todays-card/route.ts: Fetching today's card ---`);
         return await getTodaysCard();
     },
     ['todays-card'],
@@ -17,8 +18,8 @@ const getCachedTodaysCard = unstable_cache(
 
 export async function GET() {
     try {
-        console.log('--- Function getCachedTodaysCard called ---')
         const todaysCard = await getCachedTodaysCard();
+        console.log(`--- api/todays-card/route.ts: Today's card: ${todaysCard.id} ---`);
 
         return NextResponse.json(todaysCard, {
             status: 200,
