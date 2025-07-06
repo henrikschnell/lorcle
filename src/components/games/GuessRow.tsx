@@ -31,7 +31,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
             case 'color':
                 if (card[comparisonKey] === todaysCard[comparisonKey]) {
                     return 'correct';
-                } else if (card[comparisonKey] !== '' && (card[comparisonKey].includes(todaysCard[comparisonKey]) || todaysCard[comparisonKey].includes(card[comparisonKey]))) {
+                } else if (card[comparisonKey] !== '' && todaysCard[comparisonKey] !== '' && (card[comparisonKey].includes(todaysCard[comparisonKey]) || todaysCard[comparisonKey].includes(card[comparisonKey]))) {
                     return 'partial';
                 }
                 break;
