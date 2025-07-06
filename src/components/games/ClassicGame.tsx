@@ -15,21 +15,45 @@ type Props = {
 
 export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
     const [guessHistory, setGuessHistory] = useState<Card[]>([]);
+    const [gameState, setGameState] = useState<'playing' | 'win'>('playing')
+    const [totalGuessCount, setTotalGuessCount] = useState(guessCount);
 
-    const handleGuess = (guessedCard: Card) => {
+    const handleGuess = async (guessedCard: Card) => {
         setGuessHistory(prev => [guessedCard, ...prev]);
+        if (guessedCard.id === todaysCard.id) {
+            setGameState('win');
+            setTotalGuessCount(count => count + 1);
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/stats/incrementguesses`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            } catch (err) {
+                console.error("Fehler beim Beendes des Spiels:", err);
+            }
+        }
     };
 
     return (
         <div className="flex flex-col justify-center items-center">
             <div className="w-1/3">
-                <CardGuess 
-                    todaysCard={todaysCard} 
-                    cards={cards} 
-                    onGuess={handleGuess}
-                    guessHistory={guessHistory}
-                />
-                <GuessCounter count={guessCount} />
+                {
+                    gameState !== 'win' && (
+                        <CardGuess
+                            todaysCard={todaysCard}
+                            cards={cards}
+                            onGuess={handleGuess}
+                            guessHistory={guessHistory}
+                        />
+                    )
+                }
+                <GuessCounter count={totalGuessCount} />
                 {
                     guessHistory.length > 0 && (
                         <>
