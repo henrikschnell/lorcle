@@ -1,17 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '@/types/card';
 import CardGuess from '@/components/games/CardGuess';
 import GuessHeader from '@/components/games/GuessHeader';
 import GuessRow from '@/components/games/GuessRow';
 import GuessCounter from "@/components/games/GuessCounter";
-import { 
-    getGameState, 
-    updateGuessHistory, 
-    updateGameStateStatus, 
-    isGameStateValidForCard 
-} from '@/utils/localStorage';
+import { getGameState, isGameStateValidForCard, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
 
 type Props = {
     todaysCard: Card;
