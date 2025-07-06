@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
+import { validateApiKeyAuth } from '@/utils/auth';
 
 type LocaleKey = 'de' | 'en';
 
@@ -37,11 +38,9 @@ type Card = {
 };
 
 export async function GET(req: Request) {
-    const url = new URL(req.url);
-    const authKey = url.searchParams.get('key');
-
-    if (authKey !== process.env.INTERNAL_SYNC_KEY) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authError = validateApiKeyAuth(req);
+    if (authError) {
+        return authError;
     }
 
     try {

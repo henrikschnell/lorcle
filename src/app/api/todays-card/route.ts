@@ -1,34 +1,27 @@
 import { NextResponse } from 'next/server';
 import { getTodaysCard } from '@/utils/getTodaysCard';
-import { unstable_cache } from 'next/cache';
+import { validateApiKeyAuth } from "@/utils/auth";
 
-const CACHE_TTL = 86400;
+const CLIENT_CACHE_TTL = 600;
 
-const getCachedTodaysCard = unstable_cache(
-    async () => {
-        console.log(`--- api/todays-card/route.ts: Fetching today's card ---`);
-        return await getTodaysCard();
-    },
-    ['todays-card'],
-    {
-        tags: ['todays-card'],
-        revalidate: CACHE_TTL,
+export async function GET(req: Request) {
+    const authError = validateApiKeyAuth(req);
+    if (authError) {
+        return authError;
     }
-);
 
-export async function GET() {
     try {
-        const todaysCard = await getCachedTodaysCard();
-        console.log(`--- api/todays-card/route.ts: Today's card: ${todaysCard.id} ---`);
+        const todaysCard = await getTodaysCard();
 
         return NextResponse.json(todaysCard, {
             status: 200,
             headers: {
-                'Cache-Control': `s-maxage=${CACHE_TTL}, stale-while-revalidate`,
+                'Cache-Control': `max-age=${CLIENT_CACHE_TTL}, stale-while-revalidate`,
             },
         });
     } catch (error) {
-        console.error('Error fetching today\'s card:', error);
+        console.error('--- api/todays-card/route.ts: Error fetching today\'s card:', error);
+        console.error('--- api/todays-card/route.ts: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
         return NextResponse.json(
             { error: error instanceof Error ? error.message : 'Failed to fetch today\'s card' },
             { status: 500 }
