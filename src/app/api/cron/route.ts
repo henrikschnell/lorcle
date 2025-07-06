@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
 import seedrandom from 'seedrandom';
-import { revalidateTag } from 'next/cache';
 
 export async function GET(req: Request) {
     if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -9,56 +8,56 @@ export async function GET(req: Request) {
     }
 
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
 
         // Prüfung, ob für die heutige Karte schon ein Eintrag existiert
         const { data: existingCard } = await supabase
             .from('history')
             .select('*')
-            .eq('date', today)
+            .eq('date', tomorrowFormatted)
             .single();
 
         if (existingCard) {
             return NextResponse.json({ 
-                message: 'Card fetched',
+                message: 'Nächste Karte bereits vorhanden',
                 cardId: existingCard.card_id,
-                date: today 
+                date: existingCard.date
             });
         }
 
-        // Kein Eintrag zur heutigen Karte gefunden. Startet das Aussuchen einer Karte
+        // Kein Eintrag zur nächsten Karte gefunden
         const { data: cards, error: cardsError } = await supabase
             .from('cards')
             .select('*');
 
         if (cardsError || !cards) {
-            throw new Error('Failed to fetch cards');
+            throw new Error('Fehler beim Abrufen aller Karten');
         }
 
         const salt = 'uAnkHJmSgX';
-        const rng = seedrandom(today + salt);
+        const rng = seedrandom(tomorrowFormatted + salt);
         const index = Math.floor(rng() * cards.length);
-        const todaysCard = cards[index];
+        const nextCard = cards[index];
 
         // Speichern der heutigen Karte in der Datenbank
         const { error: insertError } = await supabase
             .from('history')
             .insert({
-                date: today,
-                card_id: todaysCard.id
+                date: tomorrowFormatted,
+                card_id: nextCard.id
             });
 
         if (insertError) {
-            throw new Error(`Failed to save card to history: ${insertError.message}`);
+            throw new Error(`Fehler beim Speichern der Karte in der Historie: ${insertError.message}`);
         }
 
-        // Cache invalidieren, nachdem eine neue Karte erzeugt wurde
-        revalidateTag('todays-card');
-
-        return NextResponse.json({ 
-            message: 'Successfully generated and saved today\'s card',
-            cardId: todaysCard.id,
-            date: today 
+        return NextResponse.json({
+            message: 'Morgige Karte erfolgreich generiert',
+            cardId: nextCard.id,
+            date: tomorrowFormatted
         });
 
     } catch (error) {

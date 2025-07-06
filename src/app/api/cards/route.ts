@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
+import { validateApiKeyAuth } from "@/utils/auth";
 
-const CACHE_TTL = 43200;
+const CLIENT_CACHE_TTL = 300; // 5 minutes client-side cache
 
-export async function GET() {
+export async function GET(req: Request) {
+    const authError = validateApiKeyAuth(req);
+    if (authError) {
+        return authError;
+    }
+
     const { data, error } = await supabase
         .from('cards')
         .select('*, sets(name, namegerman)')
@@ -16,7 +22,7 @@ export async function GET() {
     return NextResponse.json(data, {
         status: 200,
         headers: {
-            'Cache-Control': `s-maxage=${CACHE_TTL}, stale-while-revalidate`,
+            'Cache-Control': `max-age=${CLIENT_CACHE_TTL}, stale-while-revalidate`,
         },
     });
 }
