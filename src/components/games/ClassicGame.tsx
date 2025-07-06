@@ -5,13 +5,15 @@ import { Card } from '@/types/card';
 import CardGuess from '@/components/games/CardGuess';
 import GuessHeader from '@/components/games/GuessHeader';
 import GuessRow from '@/components/games/GuessRow';
+import GuessCounter from "@/components/games/GuessCounter";
 
 type Props = {
     todaysCard: Card;
     cards: Card[];
+    guessCount: number;
 };
 
-export default function ClassicGame({ todaysCard, cards }: Props) {
+export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
     const [guessHistory, setGuessHistory] = useState<Card[]>([]);
 
     const handleGuess = (guessedCard: Card) => {
@@ -27,7 +29,7 @@ export default function ClassicGame({ todaysCard, cards }: Props) {
                     onGuess={handleGuess}
                     guessHistory={guessHistory}
                 />
-
+                <GuessCounter count={guessCount} />
                 {
                     guessHistory.length > 0 && (
                         <>
