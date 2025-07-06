@@ -22,6 +22,7 @@ export default function RootLayout({
           <html lang="en" suppressHydrationWarning>
           <head>
               <meta name="google-site-verification" content="eO-qdUpzfUBpAICgku7EmDiGiV8ktHuaXtIgioMpn5w" />
+              <link rel="canonical" href="https://lorcle.net"/>
               <title>{title}</title>
           </head>
           <body className={barlow.className}>
