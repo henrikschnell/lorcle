@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-
 import "./globals.css";
-
 import React from "react";
 import { barlow } from "@/lib/fonts";
 
@@ -26,7 +24,7 @@ export default function RootLayout({
               <title>{title}</title>
           </head>
           <body className={barlow.className}>
-              <main className="p-4">
+              <main className="p-8">
                   {/*
                       <ThemeProvider
                           attribute="class"
