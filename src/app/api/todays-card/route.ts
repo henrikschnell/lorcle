@@ -20,8 +20,6 @@ export async function GET(req: Request) {
             },
         });
     } catch (error) {
-        console.error('--- api/todays-card/route.ts: Error fetching today\'s card:', error);
-        console.error('--- api/todays-card/route.ts: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
         return NextResponse.json(
             { error: error instanceof Error ? error.message : 'Failed to fetch today\'s card' },
             { status: 500 }

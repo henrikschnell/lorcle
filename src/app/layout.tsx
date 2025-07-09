@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-
 import "./globals.css";
-
 import React from "react";
 import { barlow } from "@/lib/fonts";
+import SettingsSheet from "@/components/landing_page/SettingsSheet";
 
 const title = "Lorcle: Guess the Lorcana Card - Daily Puzzle Game!";
 
@@ -25,8 +24,8 @@ export default function RootLayout({
               <link rel="canonical" href="https://lorcle.net"/>
               <title>{title}</title>
           </head>
-          <body className={barlow.className}>
-              <main className="p-4">
+          <body className={`${barlow.className}`}>
+              <main className="w-full mt-12">
                   {/*
                       <ThemeProvider
                           attribute="class"
@@ -42,6 +41,10 @@ export default function RootLayout({
                   */}
                   {children}
               </main>
+              <footer className="w-full flex flex-col items-center gap-3 fixed bottom-4">
+                  <SettingsSheet />
+                  <p className="text-accent">&copy; Lorcle.net 2025 - Version 1.0</p>
+              </footer>
           </body>
           </html>
       </>
