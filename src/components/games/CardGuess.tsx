@@ -61,35 +61,32 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setInputValue(value);
+        const raw = e.target.value;
+        setInputValue(raw);
 
-        if (value.trim().length > 0) {
-            // Karten auf Basis der Suche filtern (maximal 30 Vorschläge werden angezeigt)
-            const filteredCards = cards
-                .filter(
-                    card =>
-                        !(guessHistory ?? []).some(guessed => guessed.id === card.id) &&
-                        (
-                            card.fullname.toLowerCase().includes(value.toLowerCase()) ||
-                            card.name.toLowerCase().includes(value.toLowerCase())
-                        )
+        const searchValue = raw.trim().toLowerCase(); // <- Normalisierung
+
+        if (searchValue.length > 0) {
+            const startsWith = cards.filter(card =>
+                !(guessHistory ?? []).some(g => g.id === card.id) &&
+                (
+                    card.fullname.toLowerCase().startsWith(searchValue) ||
+                    card.name    .toLowerCase().startsWith(searchValue)
                 )
-                .sort((a, b) => {
-                    const searchTerm = value.toLowerCase();
-                    const aFullnameStarts = a.fullname.toLowerCase().startsWith(searchTerm);
-                    const aNameStarts = a.name.toLowerCase().startsWith(searchTerm);
-                    const bFullnameStarts = b.fullname.toLowerCase().startsWith(searchTerm);
-                    const bNameStarts = b.name.toLowerCase().startsWith(searchTerm);
+            );
 
-                    const aStartsWithTerm = aFullnameStarts || aNameStarts;
-                    const bStartsWithTerm = bFullnameStarts || bNameStarts;
+            const startsWithIds = new Set(startsWith.map(c => c.id));
 
-                    if (aStartsWithTerm && !bStartsWithTerm) return -1;
-                    if (!aStartsWithTerm && bStartsWithTerm) return 1;
+            const includes = cards.filter(card =>
+                !(guessHistory ?? []).some(g => g.id === card.id) &&
+                !startsWithIds.has(card.id) &&
+                (
+                    card.fullname.toLowerCase().includes(searchValue) ||
+                    card.name    .toLowerCase().includes(searchValue)
+                )
+            );
 
-                    return 0;
-                })
+            const filteredCards = [...startsWith, ...includes]
                 .slice(0, 30);
 
             setSuggestions(filteredCards);
