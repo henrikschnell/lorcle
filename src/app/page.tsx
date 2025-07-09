@@ -4,7 +4,7 @@ import LorcleLogo from "@/components/Logo";
 
 export default function Home() {
     return (
-        <div className="flex flex-col gap-10 justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-10">
             <LorcleLogo />
             <div id="mode_wrapper" className="flex flex-col gap-5">
                 <ModeSelect mode='classic' label='Classic' description='Guess the card with clues'/>

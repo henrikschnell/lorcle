@@ -7,6 +7,7 @@ import GuessHeader from '@/components/games/GuessHeader';
 import GuessRow from '@/components/games/GuessRow';
 import GuessCounter from "@/components/games/GuessCounter";
 import { getGameState, isGameStateValidForCard, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
+import LorcleLogo from "@/components/Logo";
 
 type Props = {
     todaysCard: Card;
@@ -76,7 +77,8 @@ export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-10">
+            <LorcleLogo />
             <div className="w-1/3">
                 {
                     gameState !== 'win' && (
