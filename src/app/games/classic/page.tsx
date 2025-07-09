@@ -1,6 +1,6 @@
+import { Card } from "@/types/card";
 import { getAllCards } from "@/lib/games/getCards";
 import ClassicGame from "@/components/games/ClassicGame";
-import { Card } from "@/types/card";
 
 export const dynamic = 'force-dynamic';
 
