@@ -9,8 +9,9 @@ export default function LorcleLogo() {
                 src="/images/lorcle_logo.png"
                 height={200}
                 width={350}
-                className="hover:scale-105 duration-150 cursor-pointer"
+                className="hover:scale-105 duration-150 cursor-pointer w-auto"
                 alt="Lorcana Logo"
+                priority={true}
             />
         </Link>
     )

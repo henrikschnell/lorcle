@@ -12,9 +12,5 @@ export async function GET(req: Request) {
 
     const count = await getClassicCount();
 
-    return NextResponse.json({ count }, {
-        headers: {
-            'Cache-Control': 'public, max-age=180, stale-while-revalidate=60',
-        },
-    });
+    return NextResponse.json({ count });
 }
