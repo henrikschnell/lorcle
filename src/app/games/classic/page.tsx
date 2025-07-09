@@ -19,7 +19,7 @@ async function getTodaysCardFromAPI(): Promise<Card> {
 
 async function getGuessCountFromAPI(): Promise<number> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/stats/counter?key=${process.env.INTERNAL_API_KEY}`, {
-        next: { revalidate: 180 } // Cache for 3 minutes
+        next: { revalidate: 60 } // Cache for 3 minutes
     });
 
     if (!res.ok) {
