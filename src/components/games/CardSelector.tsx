@@ -51,7 +51,7 @@ export default function CardSelector({ cards, onChange }: Props) {
                         value={card.id}
                         className="bg-gray-800 text-[#d3ba84] py-2"
                     >
-                        {`${card.number}. ${card.fullname}`}
+                        ${card.fullname}
                     </option>
                 ))}
             </select>
