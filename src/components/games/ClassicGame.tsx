@@ -6,7 +6,7 @@ import CardGuess from '@/components/games/CardGuess';
 import GuessHeader from '@/components/games/GuessHeader';
 import GuessRow from '@/components/games/GuessRow';
 import GuessCounter from "@/components/games/GuessCounter";
-import { getGameState, isGameStateValidForCard, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
+import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
 import LorcleLogo from "@/components/Logo";
 
 type Props = {
@@ -25,28 +25,28 @@ export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
     useEffect(() => {
         const savedState = getGameState('classic');
 
-        if (savedState && isGameStateValidForCard(savedState, todaysCard.id)) {
-            // Restore saved state if it's for the current card
+        if (savedState) {
+            // Restore saved state
             setGuessHistory(savedState.guessHistory);
             setGameState(savedState.state);
         }
 
         setIsLoaded(true);
-    }, [todaysCard.id]);
+    }, []);
 
     const handleGuess = async (guessedCard: Card) => {
         const newGuessHistory = [guessedCard, ...guessHistory];
         setGuessHistory(newGuessHistory);
-        
+
         // Save guess to localStorage
-        updateGuessHistory('classic', guessedCard, todaysCard.id);
+        updateGuessHistory('classic', guessedCard);
 
         if (guessedCard.id === todaysCard.id) {
             setGameState('win');
             setTotalGuessCount(count => count + 1);
 
             // Save win state to localStorage
-            updateGameStateStatus('classic', 'win', todaysCard.id);
+            updateGameStateStatus('classic', 'win');
 
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/stats/incrementguesses`, {
