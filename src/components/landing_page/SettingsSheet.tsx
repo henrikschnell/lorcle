@@ -18,7 +18,7 @@ export default function SettingsSheet() {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Settings size={42} strokeWidth={.75} color="var(--primary)"/>
+                <Settings size={42} strokeWidth={.75} color="var(--primary)" className="cursor-pointer"/>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>

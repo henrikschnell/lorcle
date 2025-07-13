@@ -37,7 +37,7 @@ export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
     const handleGuess = async (guessedCard: Card) => {
         const newGuessHistory = [guessedCard, ...guessHistory];
         setGuessHistory(newGuessHistory);
-
+        
         // Save guess to localStorage
         updateGuessHistory('classic', guessedCard, todaysCard.id);
 
@@ -95,10 +95,10 @@ export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
                     guessHistory.length > 0 && (
                         <>
                             <GuessHeader />
-                            <div id="history" className="h-108 overflow-y-scroll snap-y mt-6">
+                            <div id="history" className="h-108 overflow-y-auto snap-y mt-6">
                                 {guessHistory.map((card, index) => (
                                     <GuessRow
-                                        key={`${card.id}-${index}`}
+                                        key={`${card.id}`}
                                         card={card}
                                         todaysCard={todaysCard}
                                         animate={index === 0} // Only animate the newest row

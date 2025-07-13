@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
     const { data, error } = await supabase
         .from('cards')
-        .select('id, type, color, cost, fullname, name, version, fullnamegerman, versiongerman, namegerman, flavortext, flavortextgerman, rarity, raritygerman, image_full, image_thumbnail, sets(name, namegerman)')
+        .select('id, type, setcode, color, cost, fullname, name, version, fullnamegerman, versiongerman, namegerman, flavortext, flavortextgerman, rarity, raritygerman, image_full, image_thumbnail, sets(name, namegerman)')
         .order('name', { ascending: true });
 
     if (error) {
