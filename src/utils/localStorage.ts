@@ -6,7 +6,6 @@ export interface GameState {
   state: 'playing' | 'win';
   guessHistory: Card[];
   lastUpdated: string; // ISO date string
-  cardId: number; // ID of the card for this day
 }
 
 export interface LocalStorageData {
@@ -40,7 +39,7 @@ export function getLocalStorageData(): LocalStorageData | null {
     }
 
     const data: LocalStorageData = JSON.parse(stored);
-    
+
     // Check if it's a new day - if so, reset storage
     if (shouldResetStorage(data.currentDate)) {
       localStorage.removeItem(STORAGE_KEY);
@@ -90,7 +89,7 @@ export function getGameState(mode: string): GameState | null {
 // Save game state for a specific mode
 export function saveGameState(mode: string, gameState: Omit<GameState, 'mode' | 'lastUpdated'>): void {
   let data = getLocalStorageData();
-  
+
   if (!data) {
     data = initializeStorage();
   }
@@ -105,25 +104,23 @@ export function saveGameState(mode: string, gameState: Omit<GameState, 'mode' | 
 }
 
 // Update guess history for a specific mode
-export function updateGuessHistory(mode: string, newGuess: Card, cardId: number): void {
+export function updateGuessHistory(mode: string, newGuess: Card): void {
   const currentState = getGameState(mode);
   const currentGuessHistory = currentState?.guessHistory || [];
-  
+
   saveGameState(mode, {
     state: currentState?.state || 'playing',
-    guessHistory: [newGuess, ...currentGuessHistory],
-    cardId
+    guessHistory: [newGuess, ...currentGuessHistory]
   });
 }
 
 // Update game state (playing/win) for a specific mode
-export function updateGameStateStatus(mode: string, state: 'playing' | 'win', cardId: number): void {
+export function updateGameStateStatus(mode: string, state: 'playing' | 'win'): void {
   const currentState = getGameState(mode);
-  
+
   saveGameState(mode, {
     state,
-    guessHistory: currentState?.guessHistory || [],
-    cardId
+    guessHistory: currentState?.guessHistory || []
   });
 }
 
@@ -132,11 +129,6 @@ export function clearStorage(): void {
   if (typeof window === 'undefined') {
     return;
   }
-  
-  localStorage.removeItem(STORAGE_KEY);
-}
 
-// Check if stored game state is for the current card
-export function isGameStateValidForCard(gameState: GameState, currentCardId: number): boolean {
-  return gameState.cardId === currentCardId;
+  localStorage.removeItem(STORAGE_KEY);
 }

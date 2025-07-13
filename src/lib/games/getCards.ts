@@ -1,15 +1,16 @@
-import { Card } from '@/types/card';
+import { supabase } from "@/lib/db";
+import { Card } from "@/types/card";
 
 export async function getAllCards(): Promise<Card[]> {
-    const CACHE_TTL = 86400;
+    const { data, error } = await supabase
+        .from('cards')
+        .select('id, type, setcode, color, cost, fullname, name, version, fullnamegerman, versiongerman, namegerman, flavortext, flavortextgerman, rarity, raritygerman, image_full, image_thumbnail, sets(name, namegerman)')
+        .order('name', { ascending: true });
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/cards?key=${process.env.INTERNAL_API_KEY}`, {
-        next: { revalidate: CACHE_TTL },
-    });
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch cards');
+    if (error) {
+        console.error('Fehler beim Abrufen der Karten:', error);
+        return [];
     }
 
-    return await res.json();
+    return data as unknown as Card[];
 }
