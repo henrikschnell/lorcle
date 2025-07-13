@@ -8,14 +8,16 @@ import GuessRow from '@/components/games/GuessRow';
 import GuessCounter from "@/components/games/GuessCounter";
 import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
 import LorcleLogo from "@/components/Logo";
+import YesterdaysCard from "@/components/games/YesterdaysCard";
 
 type Props = {
     todaysCard: Card;
+    yesterdaysCard: Card;
     cards: Card[];
     guessCount: number;
 };
 
-export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
+export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCount }: Props) {
     const [guessHistory, setGuessHistory] = useState<Card[]>([]);
     const [gameState, setGameState] = useState<'playing' | 'win'>('playing')
     const [totalGuessCount, setTotalGuessCount] = useState(guessCount);
@@ -101,13 +103,14 @@ export default function ClassicGame({ todaysCard, cards, guessCount }: Props) {
                                         key={`${card.id}`}
                                         card={card}
                                         todaysCard={todaysCard}
-                                        animate={index === 0} // Only animate the newest row
+                                        animate={index === 0 && gameState !== 'win'} // Only animate the newest row
                                     />
                                 ))}
                             </div>
                         </>
                     )
                 }
+                <YesterdaysCard card={yesterdaysCard} />
             </div>
         </div>
     );
