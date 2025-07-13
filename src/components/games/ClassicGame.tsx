@@ -82,6 +82,7 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
         <div className="flex flex-col justify-center items-center gap-10">
             <LorcleLogo />
             <div className="w-1/3">
+                <GuessCounter count={totalGuessCount} />
                 {
                     gameState !== 'win' && (
                         <CardGuess
@@ -92,7 +93,6 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                         />
                     )
                 }
-                <GuessCounter count={totalGuessCount} />
                 {
                     guessHistory.length > 0 && (
                         <>
