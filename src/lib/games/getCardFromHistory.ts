@@ -8,11 +8,16 @@ type HistoryEntry = {
 
 /**
  * Ruft die heutige Karte aus der Historien-Tabelle ab
+ * @param mode 1 = Heutige Karte, 2 = gestrige Karte
  * @returns {Promise<Card>} Die heutige Karte
  * @throws Error Wenn keine Karte gefunden werden konnte oder es einen Fehler in der Query gibt
  */
-export async function getTodaysCard(): Promise<Card> {
-    const dateToday = new Date().toISOString().split('T')[0];
+export async function getCardFromHistory(mode: number): Promise<Card> {
+    const date = new Date();
+    if (mode === 2) {
+        date.setDate(date.getDate() - 1);
+    }
+    const searchDate = date.toISOString().split('T')[0];
 
     const { data, error } = await supabase
         .from('history')
@@ -28,7 +33,7 @@ export async function getTodaysCard(): Promise<Card> {
        sets (name, namegerman)
      )`
         )
-        .eq('date', dateToday)
+        .eq('date', searchDate)
         .single<HistoryEntry>();
 
     if (error) {
@@ -36,7 +41,7 @@ export async function getTodaysCard(): Promise<Card> {
     }
 
     if (!data?.cards) {
-        throw new Error(`Es konnte keine Karte für das heutige Datum gefunden werden: ${dateToday}`);
+        throw new Error(`Es konnte keine Karte für das heutige/gestrige Datum gefunden werden: ${searchDate}`);
     }
 
     return data.cards;
