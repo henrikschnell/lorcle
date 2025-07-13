@@ -12,8 +12,5 @@ export async function getAllCards(): Promise<Card[]> {
         return [];
     }
 
-    return data.map((row): Card => ({
-        ...row,
-        sets: row.sets[0]
-    }));
+    return data as unknown as Card[];
 }
