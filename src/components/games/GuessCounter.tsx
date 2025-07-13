@@ -5,9 +5,9 @@ type Props = {
 export default function GuessCounter({ count }: Props) {
     return (
         <div className="text-center mb-6">
-            <span>
-                {count} player{count === 1 ? '' : 's'} guessed the card correctly!
-            </span>
+            <p>
+                <span className="text-primary">{count}</span> player{count === 1 ? '' : 's'} guessed the card correctly!
+            </p>
         </div>
     );
 }

@@ -2,17 +2,18 @@ export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 import { getAllCards } from "@/lib/games/getCards";
-import { getCardFromHistory } from "@/lib/games/getCardFromHistory";
+import { getCardsFromHistory } from "@/lib/games/getCardsFromHistory";
 import { getClassicCount } from "@/lib/games/getStats";
 import ClassicGame from "@/components/games/ClassicGame";
 
 export default async function Classic() {
-    const [todaysCard, yesterdaysCard, allCards, guessCount] = await Promise.all([
-        getCardFromHistory(1),
-        getCardFromHistory(2),
+    const [relevantCards, allCards, guessCount] = await Promise.all([
+        getCardsFromHistory(),
         getAllCards(),
         getClassicCount(),
     ]);
+    const yesterdaysCard = relevantCards[0];
+    const todaysCard = relevantCards[1];
     return (
         <ClassicGame
             todaysCard={todaysCard}
