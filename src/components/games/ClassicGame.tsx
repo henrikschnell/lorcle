@@ -7,28 +7,27 @@ import GuessHeader from '@/components/games/GuessHeader';
 import GuessRow from '@/components/games/GuessRow';
 import GuessCounter from "@/components/games/GuessCounter";
 import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
-import LorcleLogo from "@/components/Logo";
 import YesterdaysCard from "@/components/games/YesterdaysCard";
+import LorcleLogo from "@/components/Logo";
 
 type Props = {
     todaysCard: Card;
     yesterdaysCard: Card;
     cards: Card[];
     guessCount: number;
+    logoClick: () => void;
 };
 
-export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCount }: Props) {
+export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCount, logoClick }: Props) {
     const [guessHistory, setGuessHistory] = useState<Card[]>([]);
     const [gameState, setGameState] = useState<'playing' | 'win'>('playing')
     const [totalGuessCount, setTotalGuessCount] = useState(guessCount);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Load saved state from localStorage on component mount
     useEffect(() => {
         const savedState = getGameState('classic');
 
         if (savedState) {
-            // Restore saved state
             setGuessHistory(savedState.guessHistory);
             setGameState(savedState.state);
         }
@@ -39,15 +38,12 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
     const handleGuess = async (guessedCard: Card) => {
         const newGuessHistory = [guessedCard, ...guessHistory];
         setGuessHistory(newGuessHistory);
-
-        // Save guess to localStorage
         updateGuessHistory('classic', guessedCard);
 
         if (guessedCard.id === todaysCard.id) {
             setGameState('win');
             setTotalGuessCount(count => count + 1);
 
-            // Save win state to localStorage
             updateGameStateStatus('classic', 'win');
 
             try {
@@ -67,7 +63,6 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
         }
     };
 
-    // Don't render until localStorage state is loaded
     if (!isLoaded) {
         return (
             <div className="flex flex-col justify-center items-center">
@@ -79,10 +74,10 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-10">
-            <LorcleLogo />
-            <div className="w-1/3">
-                <GuessCounter count={totalGuessCount} />
+        <>
+            <LorcleLogo onClick={logoClick}/>
+            <div className="flex flex-col">
+                <GuessCounter count={totalGuessCount}/>
                 {
                     gameState !== 'win' && (
                         <CardGuess
@@ -96,22 +91,22 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                 {
                     guessHistory.length > 0 && (
                         <>
-                            <GuessHeader />
+                            <GuessHeader/>
                             <div id="history" className="h-108 overflow-y-auto snap-y mt-6">
                                 {guessHistory.map((card, index) => (
                                     <GuessRow
                                         key={`${card.id}`}
                                         card={card}
                                         todaysCard={todaysCard}
-                                        animate={index === 0 && gameState !== 'win'} // Only animate the newest row
+                                        animate={index === 0 && gameState !== 'win'}
                                     />
                                 ))}
                             </div>
                         </>
                     )
                 }
-                <YesterdaysCard card={yesterdaysCard} />
+                <YesterdaysCard card={yesterdaysCard}/>
             </div>
-        </div>
+        </>
     );
 }
