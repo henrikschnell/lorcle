@@ -8,7 +8,7 @@ export default function YesterdaysCard({ card }: Props) {
     return (
         <div className="text-center mt-4">
             <p>
-                Yesterdays card was: <span className="text-primary">#{card.id} - {card.fullname} ({card.rarity})</span>
+                Yesterdays card was: <span className="text-primary">{card.fullname} ({card.rarity})</span>
             </p>
         </div>
     );
