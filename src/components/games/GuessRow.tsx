@@ -48,7 +48,7 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     ];
 
     return (
-        <div className="flex justify-around mt-4 px-2 snap-end">
+        <div className="flex gap-2 justify-around mt-4 px-2 snap-end">
             {
                 animate ? (
                     <motion.div

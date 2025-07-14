@@ -2,7 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 
-export default function LorcleLogo() {
+type Props = {
+    onClick: () => void;
+}
+
+export default function LorcleLogo({ onClick }: Props) {
     return (
         <Link href="/">
             <Image
@@ -12,6 +16,7 @@ export default function LorcleLogo() {
                 className="hover:scale-105 duration-150 cursor-pointer w-auto"
                 alt="Lorcana Logo"
                 priority={true}
+                onClick={onClick}
             />
         </Link>
     )
