@@ -161,7 +161,7 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
     return (
         <div className="relative w-full">
             <form onSubmit={handleSubmit} className="flex w-full items-center gap-2">
-                <div className="relative flex-1">
+                <div className="flex-1">
                     <Input 
                         ref={inputRef}
                         type="text" 
