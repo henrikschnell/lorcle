@@ -1,4 +1,7 @@
 {
+  "Misc": {
+    "under_construction": "This page is currently under construction"
+  },
   "Auth": {
     "sign_in": "Sign in",
     "sign_up": "Sign up",

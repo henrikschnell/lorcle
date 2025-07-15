@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SendHorizontal } from 'lucide-react';
 import { Card } from '@/types/card';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 type Props = {
     todaysCard: Card;
@@ -16,6 +16,7 @@ type Props = {
 
 export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: Props) {
     const t = useTranslations('Games');
+    const locale = useLocale();
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState<Card[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -189,10 +190,7 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
                                     }`}
                                     onClick={() => handleSuggestionClick(card)}
                                 >
-                                    <div className="text-sm font-medium">{`${card.fullname} (${card.rarity})`}</div>
-                                    {card.fullname !== card.name && (
-                                        <div className="text-sm text-gray-400">{`${card.name} (${card.rarity})`}</div>
-                                    )}
+                                    <div className="text-sm font-medium">{`${locale === 'de' ? card.fullnamegerman : card.fullname} (${locale === 'de' ? card.raritygerman : card.rarity})`}</div>
                                 </div>
                             ))}
                         </div>

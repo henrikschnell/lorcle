@@ -1,5 +1,5 @@
 import { Card } from "@/types/card";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {
     card: Card;
@@ -7,11 +7,12 @@ type Props = {
 
 export default function YesterdaysCard({ card }: Props) {
     const t = useTranslations('Games');
-
+    const locale = useLocale();
+    
     return (
         <div className="text-center mt-4">
             <p>
-                {t('yesterdays_card')}<span className="text-primary pl-2">{card.fullname} ({card.rarity})</span>
+                {t('yesterdays_card')}<span className="text-primary pl-2">{locale === 'de' ? card.fullnamegerman : card.fullname} ({locale === 'de' ? card.raritygerman : card.rarity})</span>
             </p>
         </div>
     );

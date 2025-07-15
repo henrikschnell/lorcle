@@ -1,4 +1,7 @@
 {
+  "Misc": {
+    "under_construction": "Diese Seite befindet sich gerade im Umbau"
+  },
   "Auth": {
     "sign_in": "Einloggen",
     "sign_up": "Registrieren",
