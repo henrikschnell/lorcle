@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Sheet,
     SheetClose,
@@ -13,6 +11,7 @@ import {
 } from "@/components/ui/sheet"
 import { Settings } from "lucide-react";
 import { AuthAwareSignInLink } from "@/components/AuthAwareLink";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function SettingsSheet() {
     return (
@@ -27,15 +26,8 @@ export default function SettingsSheet() {
                         Customize your experience here. Make sure to click save when you&apos;re done.
                     </SheetDescription>
                 </SheetHeader>
-                <div className="grid flex-1 auto-rows-min gap-6 px-4">
-                    <div className="grid gap-3">
-                        <Label htmlFor="sheet-demo-name">Name</Label>
-                        <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-                    </div>
-                    <div className="grid gap-3">
-                        <Label htmlFor="sheet-demo-username">Username</Label>
-                        <Input id="sheet-demo-username" defaultValue="@peduarte" />
-                    </div>
+                <div className="grid flex-1 auto-rows-min px-4">
+                    <LanguageSwitcher/>
                 </div>
                 <SheetFooter>
                     <AuthAwareSignInLink />
