@@ -6,8 +6,9 @@ import ModeSelect from '../landing_page/ModeSelect';
 import ClassicGame from "@/components/games/ClassicGame";
 import LorcleLogo from "@/components/Logo";
 import UnderConstruction from "@/components/UnderConstruction";
+import { useTranslations } from "next-intl";
 
-type Mode = 'classic' | 'timeattack' | 'duel' | 'flavour';
+type Mode = 'classic' | 'timeattack' | 'duel' | 'flavor';
 
 type Props = {
     cards: Card[];
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export default function GameBoard({ cards, todaysCard, yesterdaysCard, guessCount }: Props) {
+    const t = useTranslations('Games');
     const [activeMode, setActiveMode] = useState<Mode | ''>('');
 
     function handleModeSelection(mode: Mode) {
@@ -35,7 +37,7 @@ export default function GameBoard({ cards, todaysCard, yesterdaysCard, guessCoun
                 return <UnderConstruction logoClick={handleLogoClick}/>
             case 'duel':
                 return <UnderConstruction logoClick={handleLogoClick}/>
-            case 'flavour':
+            case 'flavor':
                 return <UnderConstruction logoClick={handleLogoClick}/>
             default:
                 return <UnderConstruction logoClick={handleLogoClick}/>
@@ -46,10 +48,10 @@ export default function GameBoard({ cards, todaysCard, yesterdaysCard, guessCoun
         <>
             <LorcleLogo onClick={handleLogoClick}/>
             <div className="flex flex-col gap-5">
-                <ModeSelect mode="classic" label="Classic" description="Guess the card with clues" onClick={handleModeSelection}/>
-                <ModeSelect mode="timeattack" label="Time Attack" description="How quick are you?" onClick={handleModeSelection}/>
-                <ModeSelect mode="duel" label="Duel" description="Challenge your friends!" onClick={handleModeSelection}/>
-                <ModeSelect mode="flavour" label="Flavour" description="Who said that?" onClick={handleModeSelection}/>
+                <ModeSelect mode="classic" label={t('classic_title')} description={t('classic_description')} onClick={handleModeSelection}/>
+                <ModeSelect mode="timeattack" label={t('timeattack_title')} description={t('timeattack_description')} onClick={handleModeSelection}/>
+                <ModeSelect mode="duel" label={t('duel_title')} description={t('duel_description')} onClick={handleModeSelection}/>
+                <ModeSelect mode="flavor" label={t('flavor_title')} description={t('flavor_description')} onClick={handleModeSelection}/>
             </div>
         </>
     ) : (
