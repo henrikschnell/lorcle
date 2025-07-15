@@ -3,6 +3,7 @@ import GuessItem from './GuessItem';
 import { motion } from 'framer-motion';
 import React from "react";
 import Image from "next/image";
+import { useLocale } from "next-intl";
 
 type Props = {
     card: Card;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function GuessRow({ card, todaysCard, animate = false }: Props) {
+    const locale = useLocale();
     const getGuessState = (comparisonKey: string): 'correct' | 'wrong' | 'partial' => {
         switch (comparisonKey) {
             // Nur richtig oder falsch möglich
@@ -40,11 +42,11 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
     };
 
     const items = [
-        { value: card.sets.name, state: getGuessState('set'), type: 'text' },
+        { value: locale === 'de' ? card.sets.namegerman : card.sets.name, state: getGuessState('set'), type: 'text' },
         { value: card.type, state: getGuessState('type'), type: 'text' },
         { value: card.color, state: getGuessState('color'), type: 'img' },
         { value: card.cost, state: getGuessState('cost'), type: 'text' },
-        { value: card.rarity, state: getGuessState('rarity'), type: 'text' },
+        { value: locale === 'de' ? card.raritygerman : card.rarity, state: getGuessState('rarity'), type: 'text' },
     ];
 
     return (
@@ -58,25 +60,6 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
                         transition={{ delay: 0, duration: 0.4 }}
                     >
                         <div className="rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
-                            {card.image_thumbnail ? (
-                                <Image
-                                    src={card.image_thumbnail}
-                                    alt="Card Image"
-                                    width={160}
-                                    height={160}
-                                    className="w-full h-full rounded-md object-cover transform scale-147"
-                                    style={{ objectPosition: 'center -28%' }}
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-gray-200 rounded-md flex items-center justify-center">
-                                    <span className="text-gray-500 text-xs">{card.fullname}</span>
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-                ) : (
-                    <div className="rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
-                        {card.image_thumbnail ? (
                             <Image
                                 src={card.image_thumbnail}
                                 alt="Card Image"
@@ -85,11 +68,18 @@ export default function GuessRow({ card, todaysCard, animate = false }: Props) {
                                 className="w-full h-full rounded-md object-cover transform scale-147"
                                 style={{ objectPosition: 'center -28%' }}
                             />
-                        ) : (
-                            <div className="w-full h-full bg-gray-200 rounded-md flex items-center justify-center">
-                                <span className="text-gray-500 text-xs">{card.fullname}</span>
-                            </div>
-                        )}
+                        </div>
+                    </motion.div>
+                ) : (
+                    <div className="rounded-md w-23 aspect-square flex justify-center items-center border-2 border-primary overflow-hidden">
+                        <Image
+                            src={card.image_thumbnail}
+                            alt="Card Image"
+                            width={160}
+                            height={160}
+                            className="w-full h-full rounded-md object-cover transform scale-147"
+                            style={{ objectPosition: 'center -28%' }}
+                        />
                     </div>
                 )
             }
