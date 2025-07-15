@@ -32,7 +32,7 @@ export default async function RootLayout({
                     <NextIntlClientProvider>{children}</NextIntlClientProvider>
                 </main>
                 <footer className="w-full flex flex-col items-center gap-3 fixed bottom-4">
-                    <SettingsSheet />
+                    <NextIntlClientProvider><SettingsSheet /></NextIntlClientProvider>
                     <p className="text-accent">&copy; Lorcle.net 2025 - Version 1.0</p>
                 </footer>
             </body>

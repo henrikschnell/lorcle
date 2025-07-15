@@ -1,5 +1,5 @@
 export const locales = ['en', 'de'] as const;
-export type Locale = typeof locales[number];   // 'en' | 'de'
+export type Locale = typeof locales[number];
 
 type LanguageData = {
     label: string;

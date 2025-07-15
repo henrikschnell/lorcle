@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { getLanguageData, locales } from "@/i18n/i18n";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function LanguageSwitcher() {
+    const t = useTranslations('Settings');
     const [locale, setLocale] = useState('');
     const router = useRouter();
 
@@ -31,7 +33,7 @@ export default function LanguageSwitcher() {
                 className="w-[180px]"
                 id='language-select'
             >
-                <SelectValue placeholder="Choose a language" />
+                <SelectValue placeholder={t('language_select')} />
             </SelectTrigger>
             <SelectContent>
                 {locales.map((locale) => (

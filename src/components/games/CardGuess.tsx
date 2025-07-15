@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SendHorizontal } from 'lucide-react';
 import { Card } from '@/types/card';
+import { useTranslations } from 'next-intl';
 
 type Props = {
     todaysCard: Card;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: Props) {
+    const t = useTranslations('Games');
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState<Card[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -165,7 +167,7 @@ export default function CardGuess({ todaysCard, cards, onGuess, guessHistory }: 
                     <Input 
                         ref={inputRef}
                         type="text" 
-                        placeholder="Enter a card name" 
+                        placeholder={t('card_search')}
                         value={inputValue}
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}

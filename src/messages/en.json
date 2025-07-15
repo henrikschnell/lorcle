@@ -1,5 +1,37 @@
 {
-  "Home": {
-    "title": "Hello world!"
+  "Auth": {
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "sign_out": "Sign out"
+  },
+  "Settings": {
+    "title": "Settings",
+    "description": "Customize your experience here. Make sure to click save when you're done.",
+    "language_select": "Choose a language",
+    "button_save": "Save changes",
+    "button_close": "Close"
+  },
+  "Games": {
+    "guess_count": "players guessed the card correctly!",
+    "yesterdays_card": "Yesterdays card was",
+    "card_search": "Enter a card name",
+
+    "classic_title": "Classic",
+    "classic_description": "Guess the card with clues",
+    "classic_category_card": "Card",
+    "classic_category_set": "Set",
+    "classic_category_type": "Type",
+    "classic_category_ink": "Ink",
+    "classic_category_cost": "Cost",
+    "classic_category_rarity": "Rarity",
+
+    "timeattack_title": "Time Attack",
+    "timeattack_description": "Battle against the clock",
+
+    "duel_title": "Duel",
+    "duel_description": "Challenge your friends!",
+
+    "flavor_title": "Flavor Quest",
+    "flavor_description": "Guess the flavor text"
   }
 }

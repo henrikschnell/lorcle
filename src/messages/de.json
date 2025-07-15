@@ -1,5 +1,37 @@
 {
-  "Home": {
-    "title": "Hallo Welt!"
+  "Auth": {
+    "sign_in": "Einloggen",
+    "sign_up": "Registrieren",
+    "sign_out": "Ausloggen"
+  },
+  "Settings": {
+    "title": "Einstellungen",
+    "description": "Hier kannst du dein Spielerlebnis individualisieren. Denk daran zu speichern sobald du fertig bist.",
+    "language_select": "Sprache auswählen",
+    "button_save": "Änderungen speichern",
+    "button_close": "Schließen"
+  },
+  "Games": {
+    "guess_count": "Spieler haben die Karte bisher erraten!",
+    "yesterdays_card": "Die gestrige Karte war",
+    "card_search": "Gib einen Kartennamen ein",
+
+    "classic_title": "Klassisch",
+    "classic_description": "Ratespiel mit Hinweisen",
+    "classic_category_card": "Karte",
+    "classic_category_set": "Set",
+    "classic_category_type": "Typ",
+    "classic_category_ink": "Tinte",
+    "classic_category_cost": "Kosten",
+    "classic_category_rarity": "Seltenheit",
+
+    "timeattack_title": "Zeitrennen",
+    "timeattack_description": "Kampf gegen die Stoppuhr",
+
+    "duel_title": "Duell",
+    "duel_description": "Fordere deine Freunde heraus!",
+
+    "flavor_title": "Flavor Quest",
+    "flavor_description": "Errate den Flavor Text"
   }
 }

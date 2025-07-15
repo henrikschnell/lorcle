@@ -4,12 +4,14 @@ import { createClient } from '@/utils/supabase/server';
 import { signOut } from "@/app/login/actions";
 import { Button } from "@/components/ui/button";
 import { LogIn, LogOut } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
     mode?: 'default' | 'loginonly';
 }
 
 export async function AuthAwareSignInLink(props: Props) {
+    const t = await getTranslations('Auth');
     const supabase = await createClient();
     const { data } = await supabase.auth.getUser();
     const isLoggedIn = !!data.user;
@@ -25,8 +27,7 @@ export async function AuthAwareSignInLink(props: Props) {
                             variant="destructive"
                             className="cursor-pointer group relative w-fit flex justify-center py-2 px-4 mt-4 border border-gray-500 text-sm font-medium rounded-md text-white transition duration-150 ease-in-out"
                         >
-
-                            <LogOut size={16}/>Sign out
+                            <LogOut size={16}/>{t('sign_out')}
                         </Button>
                     </form>
                 </div>
@@ -40,7 +41,7 @@ export async function AuthAwareSignInLink(props: Props) {
                 href='/login'
                 className="group relative w-fit flex justify-center items-center gap-2 py-2 px-4 mt-4 border border-gray-500 text-sm font-medium rounded-md text-white transition duration-150 ease-in-out"
             >
-                <LogIn size={16}/>Sign in
+                <LogIn size={16}/>{t('sign_in')}
             </Link>
         </div>
     );

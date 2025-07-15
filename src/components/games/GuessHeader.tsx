@@ -1,24 +1,16 @@
+import { useTranslations } from "next-intl";
+
 export default function GuessHeader() {
+    const t = useTranslations('Games');
+    const categories = ['card', 'set', 'type', 'ink', 'cost', 'rarity'];
+
     return (
         <div id="guess-header" className="flex justify-around mt-8 px-2">
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Card</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Set</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Type</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Ink</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Cost</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">Rarity</p>
-            </div>
+            { categories.map((category) => (
+                <div key={category} className="flex-1 text-center">
+                    <p className="text-primary drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)] underline underline-offset-8">{t(`classic_category_${category}`)}</p>
+                </div>
+            ))}
         </div>
     );
 }

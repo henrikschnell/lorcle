@@ -12,8 +12,11 @@ import {
 import { Settings } from "lucide-react";
 import { AuthAwareSignInLink } from "@/components/AuthAwareLink";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 export default function SettingsSheet() {
+    const t = useTranslations('Settings');
+
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -21,9 +24,9 @@ export default function SettingsSheet() {
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
-                    <SheetTitle>Change settings</SheetTitle>
+                    <SheetTitle>{t('title')}</SheetTitle>
                     <SheetDescription>
-                        Customize your experience here. Make sure to click save when you&apos;re done.
+                        {t('description')}
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid flex-1 auto-rows-min px-4">
@@ -31,9 +34,9 @@ export default function SettingsSheet() {
                 </div>
                 <SheetFooter>
                     <AuthAwareSignInLink />
-                    <Button type="submit">Save changes</Button>
+                    <Button type="submit">{t('button_save')}</Button>
                     <SheetClose asChild>
-                        <Button variant="outline">Close</Button>
+                        <Button variant="outline">{t('button_close')}</Button>
                     </SheetClose>
                 </SheetFooter>
             </SheetContent>
