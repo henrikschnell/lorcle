@@ -9,6 +9,7 @@ import GuessCounter from "@/components/games/GuessCounter";
 import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils/localStorage';
 import YesterdaysCard from "@/components/games/YesterdaysCard";
 import LorcleLogo from "@/components/Logo";
+import { incrementCorrectGuesses } from "@/utils/api";
 
 type Props = {
     todaysCard: Card;
@@ -43,22 +44,12 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
         if (guessedCard.id === todaysCard.id) {
             setGameState('win');
             setTotalGuessCount(count => count + 1);
-
             updateGameStateStatus('classic', 'win');
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/stats/incrementguesses`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                await incrementCorrectGuesses();
             } catch (err) {
-                console.error("Fehler beim Beendes des Spiels:", err);
+                console.error('Fehler beim Inkrementieren des Counters:', err);
             }
         }
     };
