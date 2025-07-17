@@ -1,7 +1,5 @@
-const API_BASE = process.env.NEXT_PUBLIC_SITE_URL;
-
 export async function incrementCorrectGuesses() {
-    const res = await fetch(`${API_BASE}/api/stats/incrementguesses`, {
+    const res = await fetch(`/api/stats/incrementguesses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     });
