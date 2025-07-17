@@ -3,6 +3,7 @@ import { supabase } from '@/lib/db';
 
 export async function POST() {
     try {
+        console.log('Inkrementierungsfunktion aufgerufen');
         const today = new Date().toISOString().split('T')[0];
 
         const { error } = await supabase
