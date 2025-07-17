@@ -89,7 +89,7 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                     guessHistory.length > 0 && (
                         <>
                             <GuessHeader/>
-                            <div id="history" className="h-108 overflow-y-auto snap-y mt-6">
+                            <div id="history" className="max-h-108 overflow-y-auto snap-y mt-6 flex flex-col gap-3">
                                 {guessHistory.map((card, index) => (
                                     <GuessRow
                                         key={`${card.id}`}
