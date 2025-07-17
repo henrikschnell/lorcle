@@ -89,7 +89,7 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                                         key={`${card.id}`}
                                         card={card}
                                         todaysCard={todaysCard}
-                                        animate={index === 0 && gameState !== 'win'}
+                                        animate={index === 0}
                                     />
                                 ))}
                             </div>
