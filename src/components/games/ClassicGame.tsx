@@ -10,6 +10,7 @@ import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils
 import YesterdaysCard from "@/components/games/YesterdaysCard";
 import LorcleLogo from "@/components/Logo";
 import { incrementCorrectGuesses } from "@/utils/api";
+import CountdownToReset from "@/components/games/CountdownToReset";
 
 type Props = {
     todaysCard: Card;
@@ -68,6 +69,11 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
         <>
             <LorcleLogo onClick={logoClick}/>
             <div className="flex flex-col">
+                {
+                    gameState === 'win' && (
+                        <CountdownToReset className="mb-6"/>
+                    )
+                }
                 <GuessCounter count={totalGuessCount}/>
                 {
                     gameState !== 'win' && (
