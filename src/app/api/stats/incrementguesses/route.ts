@@ -16,6 +16,8 @@ export async function POST() {
                 { error: 'Failed to increment correct guesses' },
                 { status: 500 }
             );
+        } else {
+            console.log('Counter erfolgreich inkrementiert');
         }
 
         return NextResponse.json({ success: true });
