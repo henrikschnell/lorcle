@@ -42,7 +42,7 @@ export async function GET(req: Request) {
         const index = Math.floor(rng() * cards.length);
         const nextCard = cards[index];
 
-        // Speichern der heutigen Karte in der Datenbank
+        // Speichern der morgigen Karte in der Datenbank
         const { error: insertError } = await supabase
             .from('history')
             .insert({

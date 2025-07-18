@@ -11,6 +11,7 @@ import YesterdaysCard from "@/components/games/YesterdaysCard";
 import LorcleLogo from "@/components/Logo";
 import { incrementCorrectGuesses } from "@/utils/api";
 import CountdownToReset from "@/components/games/CountdownToReset";
+import confetti from 'canvas-confetti';
 
 type Props = {
     todaysCard: Card;
@@ -46,6 +47,15 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
             setGameState('win');
             setTotalGuessCount(count => count + 1);
             updateGameStateStatus('classic', 'win');
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    disableForReducedMotion: true,
+                });
+            }, 2500);
 
             try {
                 await incrementCorrectGuesses();
@@ -89,7 +99,7 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                     guessHistory.length > 0 && (
                         <>
                             <GuessHeader/>
-                            <div id="history" className="max-h-108 overflow-y-auto snap-y mt-6 flex flex-col gap-3">
+                            <div id="history" className="max-h-104 overflow-y-auto snap-y mt-6 flex flex-col gap-3">
                                 {guessHistory.map((card, index) => (
                                     <GuessRow
                                         key={`${card.id}`}

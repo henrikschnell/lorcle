@@ -14,10 +14,27 @@
     "button_save": "Änderungen speichern",
     "button_close": "Schließen"
   },
+  "AboutUs": {
+    "AboutTitle": "Über Lorcle",
+    "About": "Willkommen bei Lorcle – das tägliche Quiz für alle Fans des Lorcana TCG!",
+    "About2": "Inspiriert vom beliebten Spiel Wordle kannst du hier in verschiedenen Spielmodi jeden Tag andere Lorcana-Karten anhand von Hinweisen wie Kartentyp, Tinte, Seltenheit und mehr erraten. Egal, ob du ein erfahrener Spieler bist oder gerade erst anfängst – probier es aus und teste dein Wissen.",
+    "LorcanaTitle": "Was ist Lorcana",
+    "Lorcana": "Disney Lorcana ist ein Sammelkartenspiel mit beliebten Disney‑Charakteren, zauberhaften Illustrationen und strategischem Gameplay. Es richtet sich sowohl an neue als auch an erfahrene TCG‑Spieler.",
+    "WhatToExpectTitle": "Was du hier findest",
+    "WhatToExpect": "Tägliche Lorcana‑Rätsel und in Zukunft auch verschiedene Spielmodi",
+    "WhatToExpect2": "Hinweise basierend auf Karteneigenschaften (Typ, Tinte, Set, Seltenheit etc.)",
+    "WhatToExpect3": "Ein Wordle‑ähnliches Erlebnis für Lorcana‑Fans",
+    "WhatToExpect4": "Eine spaßige Herausforderung zum Teilen mit deinen Freunden und der Community",
+    "WhyTitle": "Warum es das gibt",
+    "Why": "Als Lorcana‑Enthusiast wollte ich meine Liebe zum Spiel mit einem unterhaltsamen Erlebnis verbinden. So entstand Lorcle – eine Mischung aus Quiz, Gedächtnistraining und täglichen Herausforderungen für die Lorcana‑Community.",
+    "ContactTitle": "Nimm Kontakt auf",
+    "Contact": "Hast du Feedback, Vorschläge oder möchtest einfach nur Hallo sagen? Schreib mir über die Kontaktseite oder per E‑Mail. Ich freue mich auf deine Nachricht!"
+  },
   "Games": {
     "guess_count": "Spieler haben die Karte bisher erraten!",
     "yesterdays_card": "Die gestrige Karte war",
     "card_search": "Gib einen Kartennamen ein",
+    "countdown": "Täglicher Reset in",
 
     "classic_title": "Klassisch",
     "classic_description": "Ratespiel mit Hinweisen",

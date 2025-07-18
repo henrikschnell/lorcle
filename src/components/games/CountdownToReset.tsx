@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 type Props = {
     className?: string;
 }
 
 export default function CountdownToReset({ className }: Props) {
+    const t = useTranslations('Games');
     const [time, setTime] = useState('00:00:00');
 
     useEffect(() => {
@@ -38,7 +40,7 @@ export default function CountdownToReset({ className }: Props) {
 
     return (
         <div className={`flex justify-center items-center flex-col gap-2 ${className}`}>
-            <span className="text-accent text-3xl">Time until daily reset</span>
+            <span className="text-accent text-3xl">{t('countdown')}</span>
             <span className="text-accent text-5xl">{time}</span>
         </div>
     )
