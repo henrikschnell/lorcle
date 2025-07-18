@@ -28,11 +28,15 @@ export default async function RootLayout({
                 <title>{title}</title>
             </head>
             <body className={`${barlow.className}`}>
-                <main className="w-full mt-12">
-                    <NextIntlClientProvider>{children}</NextIntlClientProvider>
+                <main className="w-full p-5">
+                    <NextIntlClientProvider>
+                        <div className="w-full">
+                            <SettingsSheet className="ml-auto mr-0"/>
+                        </div>
+                        {children}
+                    </NextIntlClientProvider>
                 </main>
-                <footer className="w-full flex flex-col items-center gap-3 fixed bottom-4">
-                    <NextIntlClientProvider><SettingsSheet /></NextIntlClientProvider>
+                <footer className="w-full flex justify-center gap-3 bottom-0 pb-4">
                     <p className="text-accent">&copy; Lorcle.net 2025 - Version 1.0</p>
                 </footer>
             </body>
