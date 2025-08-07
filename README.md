@@ -47,7 +47,7 @@ Die Anwendung verwaltet eine Sammlung von Karten in der Datenbank, die verschied
 #### 2. Tägliche Kartenauswahl (Cron Job)
 ```typescript
 // Deterministische Zufallsauswahl basierend auf Datum
-const salt = 'uAnkHJmSgX';
+const salt = process.env.SEED_SALT;
 const rng = seedrandom(tomorrowFormatted + salt);
 const index = Math.floor(rng() * cards.length);
 const nextCard = cards[index];
@@ -182,7 +182,7 @@ The application manages a collection of cards in the database with various prope
 #### 2. Daily Card Selection (Cron Job)
 ```typescript
 // Deterministic random selection based on date
-const salt = 'uAnkHJmSgX';
+const salt = process.env.SEED_SALT;
 const rng = seedrandom(tomorrowFormatted + salt);
 const index = Math.floor(rng() * cards.length);
 const nextCard = cards[index];
