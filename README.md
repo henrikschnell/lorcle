@@ -1,10 +1,14 @@
 # Lorcle
 
+Tech Stack: Next.js 15, React 19, Tailwind CSS, Supabase (PostgreSQL), Cron Jobs, Vercel
+
 Du kannst die App hier ausprobieren (aktuell ist nur der Klassik-Modus verfügbar) / Try the app here (currently only the Classic-Mode is available):
 
 🎮 [Lorcle.net](https://lorcle.net)
 
-## Deutsch (click [here](#english) for the english translation)
+<img width="1227" height="898" alt="grafik" src="https://github.com/user-attachments/assets/c7e65a35-bb29-42cf-b322-205e2fab372c" />
+
+## Deutsch
 
 ### Überblick
 
@@ -139,7 +143,7 @@ Das System verfolgt:
 
 ---
 
-## English (click [here](#deutsch) to go back to the german version)
+## English
 
 ### Overview
 
