@@ -10,6 +10,8 @@ import { getGameState, updateGameStateStatus, updateGuessHistory } from '@/utils
 import YesterdaysCard from "@/components/games/YesterdaysCard";
 import LorcleLogo from "@/components/Logo";
 import { incrementCorrectGuesses } from "@/utils/api";
+import CountdownToReset from "@/components/games/CountdownToReset";
+import confetti from 'canvas-confetti';
 
 type Props = {
     todaysCard: Card;
@@ -46,6 +48,15 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
             setTotalGuessCount(count => count + 1);
             updateGameStateStatus('classic', 'win');
 
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    disableForReducedMotion: true,
+                });
+            }, 2500);
+
             try {
                 await incrementCorrectGuesses();
             } catch (err) {
@@ -68,6 +79,11 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
         <>
             <LorcleLogo onClick={logoClick}/>
             <div className="flex flex-col">
+                {
+                    gameState === 'win' && (
+                        <CountdownToReset className="mb-6"/>
+                    )
+                }
                 <GuessCounter count={totalGuessCount}/>
                 {
                     gameState !== 'win' && (
@@ -83,13 +99,13 @@ export default function ClassicGame({ todaysCard, yesterdaysCard, cards, guessCo
                     guessHistory.length > 0 && (
                         <>
                             <GuessHeader/>
-                            <div id="history" className="h-108 overflow-y-auto snap-y mt-6">
+                            <div id="history" className="max-h-104 overflow-y-auto snap-y mt-6 flex flex-col gap-3">
                                 {guessHistory.map((card, index) => (
                                     <GuessRow
                                         key={`${card.id}`}
                                         card={card}
                                         todaysCard={todaysCard}
-                                        animate={index === 0 && gameState !== 'win'}
+                                        animate={index === 0}
                                     />
                                 ))}
                             </div>

@@ -14,10 +14,27 @@
     "button_save": "Save changes",
     "button_close": "Close"
   },
+  "AboutUs": {
+    "AboutTitle": "About Lorcle",
+    "About": "Welcome to Lorcle – the daily puzzle challenge for all fans of the Disney Lorcana TCG!",
+    "About2": "Inspired by the popular game Wordle, this site lets you guess a Lorcana card each day using clues like card type, ink color, rarity, and more. Whether you're a seasoned player or just starting out, it's a fun way to test your knowledge of the game.",
+    "LorcanaTitle": "What Is Lorcana",
+    "Lorcana": "Disney Lorcana is a collectible card game featuring beloved Disney characters, magical artwork, and strategic gameplay. Designed for both new and experienced TCG players, it offers a rich world full of lore and competition.",
+    "WhatToExpectTitle": "What You'll Find Here",
+    "WhatToExpect": "Daily Lorcana based puzzles and a variety of gamemodes to come",
+    "WhatToExpect2": "Clues based on card properties (type, ink, set, rarity, etc.)",
+    "WhatToExpect3": "A Wordle-like experience tailored to Lorcana fans",
+    "WhatToExpect4": "A fun challenge to share with your friends and the community",
+    "WhyTitle": "Why This Exists",
+    "Why": "As a Lorcana enthusiast, I wanted a way to combine my love for the game with a fun, brain-teasing experience. That’s how Lorcana Wordle was born as a mix of trivia, memory, and daily excitement for the Lorcana community.",
+    "ContactTitle": "Get In Touch",
+    "Contact": "Have feedback, suggestions, or just want to say hi? Reach out via the contact page or email. I’d love to hear from you!"
+  },
   "Games": {
     "guess_count": "players guessed the card correctly!",
     "yesterdays_card": "Yesterdays card was",
     "card_search": "Enter a card name",
+    "countdown": "Time until daily reset",
 
     "classic_title": "Classic",
     "classic_description": "Guess the card with clues",

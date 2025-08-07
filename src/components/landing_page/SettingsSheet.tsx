@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
     Sheet,
     SheetClose,
@@ -9,18 +9,22 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Settings } from "lucide-react";
-import { AuthAwareSignInLink } from "@/components/AuthAwareLink";
+import {Settings} from "lucide-react";
+import {AuthAwareSignInLink} from "@/components/AuthAwareLink";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useTranslations } from "next-intl";
+import {useTranslations} from "next-intl";
 
-export default function SettingsSheet() {
+type Props = {
+    className?: string;
+}
+
+export default function SettingsSheet({className}: Props) {
     const t = useTranslations('Settings');
 
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Settings size={42} strokeWidth={.75} color="var(--primary)" className="cursor-pointer"/>
+                <Settings size={42} strokeWidth={.75} color="var(--primary)" className={`cursor-pointer ${className}`}/>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
@@ -33,7 +37,7 @@ export default function SettingsSheet() {
                     <LanguageSwitcher/>
                 </div>
                 <SheetFooter>
-                    <AuthAwareSignInLink />
+                    <AuthAwareSignInLink/>
                     <Button type="submit">{t('button_save')}</Button>
                     <SheetClose asChild>
                         <Button variant="outline">{t('button_close')}</Button>
