@@ -1,6 +1,10 @@
 # Lorcle
 
-## Deutsch
+Du kannst die App hier ausprobieren (aktuell ist nur der Klassik-Modus verfügbar) / Try the app here (currently only the Classic-Mode is available):
+
+🎮 [Lorcle.net](https://lorcle.net)
+
+## Deutsch (click [here](#english) for the english translation)
 
 ### Überblick
 
@@ -135,7 +139,7 @@ Das System verfolgt:
 
 ---
 
-## English
+## English (click [here](#deutsch) to go back to the german version)
 
 ### Overview
 
