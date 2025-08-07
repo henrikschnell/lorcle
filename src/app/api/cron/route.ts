@@ -37,7 +37,7 @@ export async function GET(req: Request) {
             throw new Error('Fehler beim Abrufen aller Karten');
         }
 
-        const salt = 'uAnkHJmSgX';
+        const salt = process.env.SEED_SALT;
         const rng = seedrandom(tomorrowFormatted + salt);
         const index = Math.floor(rng() * cards.length);
         const nextCard = cards[index];
