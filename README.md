@@ -6,7 +6,7 @@ Du kannst die App hier ausprobieren (aktuell ist nur der Klassik-Modus verfügba
 
 🎮 [Lorcle.net](https://lorcle.net)
 
-<img width="1227" height="898" alt="grafik" src="https://github.com/user-attachments/assets/c7e65a35-bb29-42cf-b322-205e2fab372c" />
+<img width="1435" height="867" alt="grafik" src="https://github.com/user-attachments/assets/402dafe6-5f0d-482b-999f-963af3b8dc85" />
 
 ## Deutsch
 
